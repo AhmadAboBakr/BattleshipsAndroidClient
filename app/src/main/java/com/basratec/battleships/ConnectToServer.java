@@ -10,8 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -63,13 +67,29 @@ public class ConnectToServer extends Activity {
                     });
                 }
             }
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    status.setText(R.string.Waiting_for_players);
+            try {
+                PrintWriter out =new PrintWriter(new BufferedWriter(
+                        new OutputStreamWriter(connection.getOutputStream())),true);
 
+                out.println("{event:start}");
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        status.setText(R.string.Waiting_for_players);
+                    }
+                });
+                Scanner in = new Scanner(connection.getInputStream());
+                if(in.nextBoolean()){
+                    //TODO Start GameActivity
                 }
-            });
+                else{
+                    //this is an example where go to would shine goto haters
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 
         }
     }
