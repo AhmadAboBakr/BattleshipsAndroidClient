@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -30,6 +31,13 @@ public class ConnectToServer extends Activity {
 
         setContentView(R.layout.activity_connecting_to_server);
         status = (TextView) findViewById(R.id.fullscreen_content);
+        Button cancel = (Button)findViewById(R.id.cancel_button);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         //full screen mumbo jumbo
         final View contentView = findViewById(R.id.fullscreen_content);
         mSystemUiHider = SystemUiHider.getInstance(this, contentView,0);
@@ -42,15 +50,27 @@ public class ConnectToServer extends Activity {
         public void run(){
             while(true) {
                 try {
-                    connection = new Socket("192.168.43.22", 3000);
+                    connection = new Socket("192.168.1.116", 6969);
                     break;
                 } catch (IOException e) {
                     e.printStackTrace();
-                    status.setText(R.string.connection_failed);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            status.setText(R.string.connection_failed);
+
+                        }
+                    });
                 }
             }
-            status.setText(R.string.Waiting_for_players);
-            //ToDo start actual game
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    status.setText(R.string.Waiting_for_players);
+
+                }
+            });
+
         }
     }
     @Override
