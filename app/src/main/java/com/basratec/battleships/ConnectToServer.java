@@ -3,6 +3,7 @@ package com.basratec.battleships;
 import com.basratec.battleships.util.SystemUiHider;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -14,7 +15,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.Scanner;
 
 /**
@@ -25,7 +28,7 @@ import java.util.Scanner;
  */
 public class ConnectToServer extends Activity {
     private SystemUiHider mSystemUiHider;
-    private Socket connection;
+    private SocketSinglton connection;
     private boolean isConnected=false;
     private boolean foundPlayer=false;
     private TextView status;
@@ -39,6 +42,12 @@ public class ConnectToServer extends Activity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                try {
+                   //connection.destroy();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 finish();
             }
         });
@@ -54,7 +63,8 @@ public class ConnectToServer extends Activity {
         public void run(){
             while(true) {
                 try {
-                    connection = new Socket("192.168.1.116", 6969);
+                    connection = SocketSinglton.getInstance();
+                    //connection.connect(new InetSocketAddress("192.169.1.116",6969));
                     break;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -68,25 +78,29 @@ public class ConnectToServer extends Activity {
                 }
             }
             try {
+                Scanner in = new Scanner(connection.getInputStream());
                 PrintWriter out =new PrintWriter(new BufferedWriter(
                         new OutputStreamWriter(connection.getOutputStream())),true);
 
                 out.println("{event:start}");
-
+                Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         status.setText(R.string.Waiting_for_players);
                     }
                 });
-                Scanner in = new Scanner(connection.getInputStream());
-                if(in.nextBoolean()){
-                    //TODO Start GameActivity
+                 if(in.next()=="start"){
+                    //Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
+                    startActivity(mainGame);
                 }
                 else{
-                    //this is an example where go to would shine goto haters
+                    /*
+                    this is an example where goto would shine goto haters
+                    of course we can also use a do-while but only losers use this
+                    */
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

@@ -10,10 +10,11 @@ import android.widget.Button;
 
 
 public class StartGame extends Activity {
-
+    private SocketSinglton connection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_start_game);
         Button start= (Button) findViewById(R.id.start);
         Button exit = (Button) findViewById(R.id.exit);
