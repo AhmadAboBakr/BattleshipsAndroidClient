@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 
-public class StartGame extends Activity {
+public class OpeningScreen extends Activity {
     private SocketSinglton connection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +45,7 @@ public class StartGame extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
     private void startButtonHandler(){
         Intent serverConnector = new Intent(this,ConnectToServer.class);

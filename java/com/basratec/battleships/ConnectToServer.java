@@ -83,7 +83,7 @@ public class ConnectToServer extends Activity {
                 PrintWriter out =new PrintWriter(new BufferedWriter(
                         new OutputStreamWriter(connection.getOutputStream())),true);
 
-                out.println("{event:start}");
+                out.println("{\"event\":\"start\"}");
                 Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
                 runOnUiThread(new Runnable() {
                     @Override

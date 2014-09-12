@@ -8,7 +8,7 @@ import java.net.Socket;
  */
 public class SocketSinglton  extends Socket{
     private static SocketSinglton instance= null;
-    private static final String address="192.168.1.116";
+    private static final String address="192.168.1.71";
     private static final int port=6969;
     private SocketSinglton(String adress,int port) throws IOException {
         super(adress,port);
@@ -21,5 +21,5 @@ public class SocketSinglton  extends Socket{
         }
         return instance;
 
-    };
+    }
 }
