@@ -6,13 +6,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
@@ -91,7 +94,7 @@ public class ConnectToServer extends Activity {
                         status.setText(R.string.Waiting_for_players);
                     }
                 });
-                 if(in.next()=="start"){
+                if(in.nextLine().equals("start")){
                     //Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
                     startActivity(mainGame);
                 }
