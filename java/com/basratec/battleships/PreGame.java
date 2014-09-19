@@ -5,13 +5,10 @@ import java.util.Vector;
 
 import android.app.ActionBar;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,12 +26,15 @@ public class PreGame extends Activity {
         shipsStatus = new Vector< Boolean>(NUMBER_OF_SHIPS);
         for(int i =0;i<NUMBER_OF_SHIPS;++i){
             ImageButton ship = new ImageButton(getApplicationContext());
-            ship.setBackgroundColor(Color.parseColor("#99aa99"));
-            ship.setBackground(Drawable.createFromPath("drawable/ship.png"));
-            ship.setLayoutParams(new ViewGroup.LayoutParams(40,40));
             shipContainer.addView(ship);
+            ship =(ImageButton) shipContainer.getChildAt(i);
+            ship.setLayoutParams(new LinearLayout.LayoutParams((int)getResources().getDimension(R.dimen.ship),(int)getResources().getDimension(R.dimen.ship)));
+            ((LinearLayout.LayoutParams)ship.getLayoutParams()).setMargins(10,10,10,10);
+            ship.setBackgroundResource(R.drawable.ship);
+
             shipsStatus.add(new Boolean("true"));
         }
+        shipContainer.invalidate();
 
     }
     @Override
@@ -45,7 +45,7 @@ public class PreGame extends Activity {
         shipContainer = (LinearLayout) findViewById(R.id.shipContainer);
         //shipContainer.invalidate();
         initilizeShips();
-        /*
+
         Thread timerThread = new Thread(new Runnable(){
 
             @Override
@@ -66,26 +66,17 @@ public class PreGame extends Activity {
                         }
                     });
                 }
-                Toast.makeText(getApplicationContext(),"Time ran out",Toast.LENGTH_LONG).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Toast.makeText(getApplicationContext(), "Time ran out", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
 
         });
         timerThread.start();
-        */
-
-
-        // get drawing view
-        // instantiate this variable by retrieving a reference to it from the
-        // layout
-        // drawView = (DrawingView) findViewById(R.id.drawing);
-		/*
-		 * first paint color button First retrieve the Linear Layout it is
-		 * contained in..
-		 */
-        LinearLayout paintLayout = (LinearLayout) findViewById(R.id.paint_colors);
-        // first button and store it as the instance variable
-        // currPaint = (ImageButton)paintLayout.getChildAt(0);
-        // currPaint.setImageDrawable(getResources().getDrawable(R.drawable.paint_pressed));
     }
 
     @Override
@@ -102,17 +93,17 @@ public class PreGame extends Activity {
         String cell = view.getTag().toString();
         int x = Integer.parseInt(cell);
         boolean listIsEmpty=true;
-
+        if (gridMap[x] == 1){
+            //TO Do add code to free a ship
+            return;
+        }
         for(int i=0;i<shipsStatus.size();++i){
             if(shipsStatus.elementAt(i).booleanValue()){ // if a ship is still not clicked
-                if (gridMap[x] == 1){
-                    //toast is needed here
-                    continue;
-                }
+
                 gridMap[x] = 1;
 
                 ImageButton ship= (ImageButton)shipContainer.getChildAt(i);
-                ship.setBackgroundColor(Color.parseColor("#554455"));
+                ship.setAlpha(.5f);
                 shipsStatus.set(i,Boolean.FALSE);
 
                 imgView.setImageDrawable(getResources().getDrawable(
