@@ -9,8 +9,8 @@
     <string name="initialize_connection">Connecting\n to server</string>
     <string name="Waiting_for_players">Waiting for another player</string>
     <string name="connection_failed">Connection failed \n retrying</string>
-    <string name="start_new">New</string>
-	<string name="brush">Brush</string>
+    <string name="max_time">00:15</string>
+	<string name="eshta">2eshta</string>
 	<string name="erase">Erase</string>
 	<string name="save">Save</string>
 	<string name="paint">Paint</string>

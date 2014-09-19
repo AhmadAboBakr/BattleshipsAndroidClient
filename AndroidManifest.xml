@@ -31,7 +31,7 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name=".MainGame"
+            android:name=".PreGame"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme" >
         </activity>

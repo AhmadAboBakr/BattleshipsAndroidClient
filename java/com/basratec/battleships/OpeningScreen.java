@@ -48,7 +48,7 @@ public class OpeningScreen extends Activity {
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
     private void startButtonHandler(){
-        Intent serverConnector = new Intent(this,MainGame.class);
+        Intent serverConnector = new Intent(this,ConnectToServer.class);
         startActivity(serverConnector);
     }
 }
