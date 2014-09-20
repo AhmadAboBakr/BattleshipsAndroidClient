@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 
-public class OpeningScreen extends Activity {
+public class OpeningScreen extends AAPIableActivity {
     private SocketSinglton connection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

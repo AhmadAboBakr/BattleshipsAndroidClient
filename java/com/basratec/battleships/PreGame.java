@@ -21,7 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PreGame extends Activity {
+public class PreGame extends AAPIableActivity {
 
     private ArrayList<String> ARRV = new ArrayList<String>(25);
 

@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -23,12 +26,14 @@ import java.util.Scanner;
  *
  * @see SystemUiHider
  */
-public class ConnectToServer extends Activity {
+public class ConnectToServer extends AAPIableActivity {
     private SystemUiHider mSystemUiHider;
     private SocketSinglton connection;
     private boolean isConnected=false;
     private boolean foundPlayer=false;
     private TextView status;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
