@@ -22,17 +22,28 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PreGame extends Activity {
+
     private ArrayList<String> ARRV = new ArrayList<String>(25);
+
     private Socket connection;
+
     private int[] gridMap = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
     private final int NUMBER_OF_SHIPS=6;
+
     private  boolean listIsEmpty;
+
     private TextView timer;
+
     private Vector<Boolean> shipsStatus;
+
     private LinearLayout shipContainer;
+
     private void initializeShips(){
+
         shipsStatus = new Vector< Boolean>(NUMBER_OF_SHIPS);
+
         for(int i =0;i<NUMBER_OF_SHIPS;++i){
             ImageButton ship = new ImageButton(getApplicationContext());
             shipContainer.addView(ship);
@@ -49,6 +60,7 @@ public class PreGame extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new ConnectionManager().start();
         setContentView(R.layout.activity_pre_game);
         timer = (TextView)findViewById(R.id.timer);
         shipContainer = (LinearLayout) findViewById(R.id.shipContainer);
@@ -134,9 +146,18 @@ public class PreGame extends Activity {
         if(listIsEmpty){
             //send grid to server  (JSONArray) is promising but require Android API 19 or more we need a decision
             try {
-                JSONObject json = new JSONObject();
+                final JSONObject json = new JSONObject();
                 json.put("event","finalizedGrid");
                 json.put("data",new JSONArray(gridMap));
+                new Thread(new Runnable(){
+                    @Override
+                    public void run() {
+                        ConnectionManager manager = new ConnectionManager();
+                        manager.init();
+                        manager.send(json.toString());
+                    }
+
+                }).start();
                 PrintWriter writer = new PrintWriter(connection.getOutputStream());
                 System.out.println(json.toString());
                 writer.write(json.toString());

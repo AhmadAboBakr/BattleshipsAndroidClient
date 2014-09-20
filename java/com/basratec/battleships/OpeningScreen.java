@@ -15,9 +15,20 @@ public class OpeningScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //ana joe
+//ahlan ya Joe
         setContentView(R.layout.activity_start_game);
         Button start= (Button) findViewById(R.id.start);
         Button exit = (Button) findViewById(R.id.exit);
+        new ConnectionManager().start();
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                ConnectionManager manager = new ConnectionManager();
+                manager.init();
+                manager.send("{\"event\":\"Opening Screen\",\"data\":\"nothing\"}");
+            }
+
+        }).start();
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startButtonHandler();
