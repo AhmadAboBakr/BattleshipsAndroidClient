@@ -1,12 +1,13 @@
 package com.basratec.battleships;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import android.app.ActionBar;
-import android.graphics.Color;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class PreGame extends Activity {
     private ArrayList<String> ARRV = new ArrayList<String>(25);
@@ -29,7 +31,7 @@ public class PreGame extends Activity {
     private TextView timer;
     private Vector<Boolean> shipsStatus;
     private LinearLayout shipContainer;
-    private void initilizeShips(){
+    private void initializeShips(){
         shipsStatus = new Vector< Boolean>(NUMBER_OF_SHIPS);
         for(int i =0;i<NUMBER_OF_SHIPS;++i){
             ImageButton ship = new ImageButton(getApplicationContext());
@@ -50,7 +52,7 @@ public class PreGame extends Activity {
         setContentView(R.layout.activity_pre_game);
         timer = (TextView)findViewById(R.id.timer);
         shipContainer = (LinearLayout) findViewById(R.id.shipContainer);
-        initilizeShips();
+        initializeShips();
         try {
             connection = SocketSinglton.getInstance();
         } catch (IOException e) {
@@ -64,7 +66,6 @@ public class PreGame extends Activity {
                 int counter=15;
                 while(counter>0){
                     counter--;
-                    System.out.println("test");
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -98,7 +99,7 @@ public class PreGame extends Activity {
     }
 
     // usr clicked color
-    private void placeShip(View view) {
+    public void placeShip(View view) {
 
         ImageButton imgView = (ImageButton) view;
         String cell = view.getTag().toString();
@@ -112,11 +113,10 @@ public class PreGame extends Activity {
             if(shipsStatus.elementAt(i).booleanValue()){ // if a ship is still not clicked
 
                 gridMap[x] = 1;
-
+                System.out.println("testdfs");
                 ImageButton ship= (ImageButton)shipContainer.getChildAt(i);
                 ship.setAlpha(.5f);
                 shipsStatus.set(i,Boolean.FALSE);
-
                 imgView.setImageDrawable(getResources().getDrawable(
                         R.drawable.ship));
                 listIsEmpty=false;
@@ -129,10 +129,23 @@ public class PreGame extends Activity {
         }
 
     }
-    private void eshtaHandler(){
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public void eshtaHandler(View view){
         if(listIsEmpty){
             //send grid to server  (JSONArray) is promising but require Android API 19 or more we need a decision
+            try {
+                JSONObject json = new JSONObject();
+                json.put("event","finalizedGrid");
+                json.put("data",new JSONArray(gridMap));
+                PrintWriter writer = new PrintWriter(connection.getOutputStream());
+                System.out.println(json.toString());
+                writer.write(json.toString());
 
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
         }
     }
 
