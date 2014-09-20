@@ -15,7 +15,7 @@ public abstract class AAPIableActivity extends Activity implements IAPIable {
             String eventName = data.getString("event");
             try{
                 Class[] cArg = new Class[1];
-                cArg[0] = JSONObject.class;
+                cArg[0] = String.class;
                 //we should find a way to support other "data" datatypes other than String
                 this.getClass().getMethod(eventName, cArg).invoke(this, data.getString("data"));
             }
