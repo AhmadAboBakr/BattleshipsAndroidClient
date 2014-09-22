@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.concurrent.Callable;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -27,12 +28,20 @@ import java.util.Scanner;
  * @see SystemUiHider
  */
 public class ConnectToServer extends AAPIableActivity {
+
     private SystemUiHider mSystemUiHider;
+
     private SocketSinglton connection;
+
     private boolean isConnected=false;
+
     private boolean foundPlayer=false;
+
     private TextView status;
 
+    protected String[] callables = {"start"};
+
+    private ConnectToServer that = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,58 +66,50 @@ public class ConnectToServer extends AAPIableActivity {
         final View contentView = findViewById(R.id.fullscreen_content);
         mSystemUiHider = SystemUiHider.getInstance(this, contentView,0);
         mSystemUiHider.setup();
-         new ConnectionManager().start();
-    }
-
-    class ConnectionManager extends Thread{
-        @Override
-        public void run(){
-            while(true) {
-                try {
-                    connection = SocketSinglton.getInstance();
-                    //connection.connect(new InetSocketAddress("192.169.1.116",6969));
-                    break;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            status.setText(R.string.connection_failed);
-
+        //start listening
+        new ConnectionManager(that).start();
+        //start sending
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                ConnectionManager manager = new ConnectionManager(that);
+                manager.init(
+                        new Callable() {
+                            @Override
+                            public Object call() throws Exception {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        status.setText(R.string.Waiting_for_players);
+                                    }
+                                });
+                                return null;
+                            }
+                        },
+                        new Callable() {
+                            @Override
+                            public Object call() throws Exception {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        status.setText(R.string.connection_failed);
+                                    }
+                                });
+                                return null;
+                            }
                         }
-                    });
-                }
-            }
-            try {
-                Scanner in = new Scanner(connection.getInputStream());
-                PrintWriter out =new PrintWriter(new BufferedWriter(
-                        new OutputStreamWriter(connection.getOutputStream())),true);
-
-                out.println("{\"event\":\"start\"}");
-                Intent mainGame = new Intent(getApplicationContext(),PreGame.class);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        status.setText(R.string.Waiting_for_players);
-                    }
-                });
-                if(in.nextLine().equals("start")){
-                    //Intent mainGame = new Intent(getApplicationContext(),PreGame.class);
-                    startActivity(mainGame);
-                }
-                else{
-                    /*
-                    this is an example where goto would shine goto haters
-                    of course we can also use a do-while but only losers use this
-                    */
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+                );
+                manager.send("{\"event\":\"start\"}");
             }
 
-
-        }
+        }).start();
     }
+
+    public void start(){
+        Intent mainGame = new Intent(getApplicationContext(),PreGame.class);
+        startActivity(mainGame);
+    }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);

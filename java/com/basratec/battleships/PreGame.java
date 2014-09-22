@@ -40,6 +40,8 @@ public class PreGame extends AAPIableActivity {
 
     private LinearLayout shipContainer;
 
+    private PreGame that = this;
+
     private void initializeShips(){
 
         shipsStatus = new Vector< Boolean>(NUMBER_OF_SHIPS);
@@ -60,7 +62,7 @@ public class PreGame extends AAPIableActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new ConnectionManager().start();
+        new ConnectionManager(that).start();
         setContentView(R.layout.activity_pre_game);
         timer = (TextView)findViewById(R.id.timer);
         shipContainer = (LinearLayout) findViewById(R.id.shipContainer);
@@ -152,7 +154,7 @@ public class PreGame extends AAPIableActivity {
                 new Thread(new Runnable(){
                     @Override
                     public void run() {
-                        ConnectionManager manager = new ConnectionManager();
+                        ConnectionManager manager = new ConnectionManager(that);
                         manager.init();
                         manager.send(json.toString());
                     }

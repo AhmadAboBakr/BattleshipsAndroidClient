@@ -10,20 +10,22 @@ import android.widget.Button;
 
 
 public class OpeningScreen extends AAPIableActivity {
+
     private SocketSinglton connection;
+
+    private OpeningScreen that = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//ana joe
-//ahlan ya Joe
         setContentView(R.layout.activity_start_game);
         Button start= (Button) findViewById(R.id.start);
         Button exit = (Button) findViewById(R.id.exit);
-        new ConnectionManager().start();
+        new ConnectionManager(that).start();
         new Thread(new Runnable(){
             @Override
             public void run() {
-                ConnectionManager manager = new ConnectionManager();
+                ConnectionManager manager = new ConnectionManager(that);
                 manager.init();
                 manager.send("{\"event\":\"Opening Screen\",\"data\":\"nothing\"}");
             }

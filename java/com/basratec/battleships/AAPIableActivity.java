@@ -10,6 +10,11 @@ import org.json.JSONObject;
  */
 public abstract class AAPIableActivity extends Activity implements IAPIable {
 
+    /**
+     *A list of functions that can be called from here, every child should provide his own
+    */
+    protected String[] callables;
+
     public void call(JSONObject data){
         try{
             String eventName = data.getString("event");
