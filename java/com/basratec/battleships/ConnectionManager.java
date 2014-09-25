@@ -18,7 +18,14 @@ import java.util.Stack;
 import java.util.concurrent.Callable;
 
 /**
- * Created by nookz on 9/20/2014.
+ * Manages the connection between the client and the server
+ * After initializing, the ConnectionManager should either:
+ * 1. listen to the server for any
+ *    incoming events, and if given an APIable class in the constructor, a function will
+ *    automatically be called using its "call()" function.
+ * Or
+ * 2. send a message to the server, in this case, the CM will wait until a connection is made
+ *    and send all messages waiting to be sent
  */
 public class ConnectionManager extends Thread {
 
@@ -58,8 +65,8 @@ public class ConnectionManager extends Thread {
      * initialize the connection, send any waiting messages
      */
     public void init(){
-        connectionStatus = STATUS_TRYING;
-        while(true) {
+        connectionStatus = STATUS_TRYING; //initialize connection status
+        while(true) { //keep trying until a connection is made (maybe there is a better way)
             try {
                 connection = SocketSinglton.getInstance();
                 connectionStatus = STATUS_SUCCESS;
@@ -67,7 +74,7 @@ public class ConnectionManager extends Thread {
                 while(!messageQueue.isEmpty()){
                     send(messageQueue.pop());
                 }
-                break;
+                break; //successfully connected, no need to stay in this loop
             } catch (IOException e) {
                 e.printStackTrace();
                 connectionStatus = STATUS_FAILED;
@@ -91,7 +98,7 @@ public class ConnectionManager extends Thread {
                     successCallBack.call();
                     //send any messages waiting to be sent
                     while(!messageQueue.isEmpty()){
-                    	//todo start with the first message
+                    	//todo start with the first message not the last
                         send(messageQueue.pop());
                     }
                 }
@@ -120,6 +127,9 @@ public class ConnectionManager extends Thread {
         System.out.println("manager initialized...");
     }
 
+    /**
+     * Listen to the server and call the calling object's "call" function if a message is received
+     */
     private void listen(){
         try{
             Gson gson = new Gson();
@@ -141,6 +151,12 @@ public class ConnectionManager extends Thread {
         }
     }
 
+    /**
+     * Send a message to the server,
+     * if no connection is present it will wait until there is and then try sending again
+     *
+     * @param message the message to send
+     */
     public void send(String message){
         if(connectionStatus == STATUS_SUCCESS){
             System.out.println("sending message to server...");

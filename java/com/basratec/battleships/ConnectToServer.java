@@ -22,25 +22,25 @@ import java.util.Scanner;
 import java.util.concurrent.Callable;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- *
- * @see SystemUiHider
+ * This activity should be shown while trying to connect a player to a game
  */
 public class ConnectToServer extends AAPIableActivity {
 
     private SystemUiHider mSystemUiHider;
 
-    private SocketSinglton connection;
-
-    private boolean isConnected=false;
-
-    private boolean foundPlayer=false;
-
+    /**
+     * The status message that will appear to the user
+     */
     private TextView status;
 
+    /**
+     * A list off all the functions that can be called using call()
+     */
     protected String[] callables = {"start"};
 
+    /**
+     * Caching self reference for embedded functions and classes to use
+     */
     private ConnectToServer that = this;
 
     @Override
@@ -66,15 +66,17 @@ public class ConnectToServer extends AAPIableActivity {
         final View contentView = findViewById(R.id.fullscreen_content);
         mSystemUiHider = SystemUiHider.getInstance(this, contentView,0);
         mSystemUiHider.setup();
-        //start listening
+        //start listening to the server
         new ConnectionManager(that).start();
-        //start sending
+
+        //connect to the server, show appropriate messages when connection fails or succeeds,
+        //and then send the "start" event
         new Thread(new Runnable(){
             @Override
             public void run() {
                 ConnectionManager manager = new ConnectionManager(that);
                 manager.init(
-                        new Callable() {
+                        new Callable() { //the success callback
                             @Override
                             public Object call() throws Exception {
                                 runOnUiThread(new Runnable() {
@@ -86,7 +88,7 @@ public class ConnectToServer extends AAPIableActivity {
                                 return null;
                             }
                         },
-                        new Callable() {
+                        new Callable() { //the failure callback
                             @Override
                             public Object call() throws Exception {
                                 runOnUiThread(new Runnable() {
@@ -99,15 +101,18 @@ public class ConnectToServer extends AAPIableActivity {
                             }
                         }
                 );
-                manager.send("{\"event\":\"start\"}");
+                manager.send("{\"event\":\"start\"}"); //ask the server to start a game for us
             }
 
         }).start();
     }
 
+    /**
+     * This function should be called to start the game
+     */
     public void start(){
-        Intent mainGame = new Intent(getApplicationContext(),PreGame.class);
-        startActivity(mainGame);
+        Intent preGame = new Intent(getApplicationContext(),PreGame.class);
+        startActivity(preGame);
     }
 
     @Override

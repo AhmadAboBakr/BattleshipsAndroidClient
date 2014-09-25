@@ -11,8 +11,9 @@ import android.widget.Button;
 
 public class OpeningScreen extends AAPIableActivity {
 
-    private SocketSinglton connection;
-
+    /**
+     * caching for use in embedded classes
+     */
     private OpeningScreen that = this;
 
     @Override
@@ -21,10 +22,12 @@ public class OpeningScreen extends AAPIableActivity {
         setContentView(R.layout.activity_start_game);
         Button start= (Button) findViewById(R.id.start);
         Button exit = (Button) findViewById(R.id.exit);
+        //start a connection manager to listen to the server
         new ConnectionManager(that).start();
         new Thread(new Runnable(){
 			@Override
 			public void run() {
+                //initialize a new manager to send an event to the server
                 ConnectionManager manager = new ConnectionManager(that);
                 manager.init();
                 //todo use the oop way

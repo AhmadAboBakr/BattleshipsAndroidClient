@@ -6,7 +6,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by nookz on 9/20/2014.
+ * An APIable activity is any activity that has functions available for public use,
+ * It inherits or implements "call()" that can be used to call a function from
+ * a list of functions provided by activity without hardcoding the function name.
  */
 public abstract class AAPIableActivity extends Activity implements IAPIable {
 
@@ -14,6 +16,10 @@ public abstract class AAPIableActivity extends Activity implements IAPIable {
      *A list of functions that can be called from here, every child should provide his own
     */
     protected String[] callables;
+
+    /**
+     * Caching this for use in embedded classes
+     */
     protected AAPIableActivity that = this;
 
     public void call(final JSONObject data){
