@@ -123,17 +123,27 @@ public class ConnectionManager extends Thread {
         try{
             Gson gson = new Gson();
             Scanner in = new Scanner(connection.getInputStream());
-            callingObject.call(gson.fromJson(in.nextLine(), JSONObject.class));
+            while(in.hasNext()){
+                System.out.println("receiving message: ");
+                String s = in.nextLine();
+                System.out.println(s);
+                callingObject.call(
+                        gson.fromJson(
+                                s,
+                                JSONObject.class
+                        )
+                );
+            }
         }
         catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
     public void send(String message){
         if(connectionStatus == STATUS_SUCCESS){
             System.out.println("sending message to server...");
+            System.out.println("message content: " + message);
             try{
                 PrintWriter out = new PrintWriter(new BufferedWriter(
                         new OutputStreamWriter(connection.getOutputStream())),true);

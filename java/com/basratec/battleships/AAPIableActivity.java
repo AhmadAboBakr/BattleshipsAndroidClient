@@ -14,15 +14,28 @@ public abstract class AAPIableActivity extends Activity implements IAPIable {
      *A list of functions that can be called from here, every child should provide his own
     */
     protected String[] callables;
+    protected AAPIableActivity that = this;
 
-    public void call(JSONObject data){
+    public void call(final JSONObject data){
         try{
-            String eventName = data.getString("event");
+            final String eventName = data.getString("event");
+            System.out.println("starting up the call function...");
             try{
-                Class[] cArg = new Class[1];
+                final Class[] cArg = new Class[1];
                 cArg[0] = String.class;
-                //we should find a way to support other "data" datatypes other than String
-                this.getClass().getMethod(eventName, cArg).invoke(this, data.getString("data"));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            System.out.println("calling "+eventName);
+                            //we should find a way to support other "data" datatypes other than String
+                            that.getClass().getMethod(eventName, cArg).invoke(this, data.getString("data"));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
             }
             catch (Exception e){
 
