@@ -23,10 +23,11 @@ public class OpeningScreen extends AAPIableActivity {
         Button exit = (Button) findViewById(R.id.exit);
         new ConnectionManager(that).start();
         new Thread(new Runnable(){
-            @Override
-            public void run() {
+			@Override
+			public void run() {
                 ConnectionManager manager = new ConnectionManager(that);
                 manager.init();
+                //todo use the oop way
                 manager.send("{\"event\":\"Opening Screen\",\"data\":\"nothing\"}");
             }
 

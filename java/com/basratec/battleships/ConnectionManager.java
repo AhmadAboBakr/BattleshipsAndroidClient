@@ -91,6 +91,7 @@ public class ConnectionManager extends Thread {
                     successCallBack.call();
                     //send any messages waiting to be sent
                     while(!messageQueue.isEmpty()){
+                    	//todo start with the first message
                         send(messageQueue.pop());
                     }
                 }
