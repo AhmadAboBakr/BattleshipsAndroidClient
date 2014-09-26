@@ -2,7 +2,6 @@ package com.basratec.battleships;
 
 import com.basratec.battleships.util.SystemUiHider;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,14 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.util.Scanner;
 import java.util.concurrent.Callable;
 
 /**
@@ -42,7 +33,7 @@ public class ConnectToServer extends AAPIableActivity {
      * Caching self reference for embedded functions and classes to use
      */
     private ConnectToServer that = this;
-
+    private ConnectionManager connectionListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +58,8 @@ public class ConnectToServer extends AAPIableActivity {
         mSystemUiHider = SystemUiHider.getInstance(this, contentView,0);
         mSystemUiHider.setup();
         //start listening to the server
-        new ConnectionManager(that).start();
+        connectionListener = new ConnectionManager(that);
+        connectionListener.start();
 
         //connect to the server, show appropriate messages when connection fails or succeeds,
         //and then send the "start" event
@@ -113,7 +105,9 @@ public class ConnectToServer extends AAPIableActivity {
      */
     public void start(){
         Intent preGame = new Intent(getApplicationContext(),PreGame.class);
+        connectionListener.stopListnening();
         startActivity(preGame);
+        connectionListener.start();
     }
 
     @Override

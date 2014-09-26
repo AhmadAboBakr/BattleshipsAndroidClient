@@ -22,8 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PreGame extends AAPIableActivity {
-
-    private ArrayList<String> ARRV = new ArrayList<String>(25);
+    private ConnectionManager connectionListener;
 
     private Socket connection;
 
@@ -62,7 +61,7 @@ public class PreGame extends AAPIableActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new ConnectionManager(that).start();
+connectionListener = new ConnectionManager(that);
         setContentView(R.layout.activity_pre_game);
         timer = (TextView)findViewById(R.id.timer);
         shipContainer = (LinearLayout) findViewById(R.id.shipContainer);

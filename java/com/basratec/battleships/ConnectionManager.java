@@ -36,7 +36,7 @@ public class ConnectionManager extends Thread {
      * whether or not we are connected to a server
      */
     private int connectionStatus = STATUS_NOT_INITIALIZED;
-
+    private boolean activityEnded=false;
     /**
      * Any messages that need to be sent but waiting for server to connect
      */
@@ -124,7 +124,6 @@ public class ConnectionManager extends Thread {
         System.out.println("initializing manager ...");
         init();
         listen();
-        System.out.println("manager initialized...");
     }
 
     /**
@@ -133,7 +132,7 @@ public class ConnectionManager extends Thread {
     private void listen(){
         try{
             Scanner in = new Scanner(connection.getInputStream());
-            while(in.hasNext()){
+            while(!activityEnded){
                 System.out.println("receiving message: ");
                 String s = in.nextLine();
                 System.out.println(s);
@@ -145,6 +144,7 @@ public class ConnectionManager extends Thread {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Send a message to the server,
@@ -212,4 +212,9 @@ public class ConnectionManager extends Thread {
             e.printStackTrace();
         }
     }
+
+    public void stopListnening(){
+        this.activityEnded=true;
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.basratec.battleships;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,7 +14,7 @@ public class OpeningScreen extends AAPIableActivity {
      * caching for use in embedded classes
      */
     private OpeningScreen that = this;
-
+    private ConnectionManager connectionListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +22,8 @@ public class OpeningScreen extends AAPIableActivity {
         Button start= (Button) findViewById(R.id.start);
         Button exit = (Button) findViewById(R.id.exit);
         //start a connection manager to listen to the server
-        new ConnectionManager(that).start();
+        connectionListener = new ConnectionManager(that);
+        connectionListener.start();
         new Thread(new Runnable(){
 			@Override
 			public void run() {
@@ -67,6 +67,8 @@ public class OpeningScreen extends AAPIableActivity {
     }
     private void startButtonHandler(){
         Intent serverConnector = new Intent(this,ConnectToServer.class);
+        connectionListener.stopListnening();
         startActivity(serverConnector);
+        connectionListener.start();
     }
 }
