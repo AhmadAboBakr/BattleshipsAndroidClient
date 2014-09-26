@@ -2,9 +2,6 @@ package com.basratec.battleships;
 
 import android.content.Intent;
 
-import com.google.gson.Gson;
-import com.google.gson.internal.$Gson$Types;
-
 import org.json.JSONObject;
 
 import java.io.BufferedWriter;
@@ -132,17 +129,13 @@ public class ConnectionManager extends Thread {
      */
     private void listen(){
         try{
-            Gson gson = new Gson();
+            //Gson gson = new Gson();
             Scanner in = new Scanner(connection.getInputStream());
             while(in.hasNext()){
                 System.out.println("receiving message: ");
                 String s = in.nextLine();
                 System.out.println(s);
-                callingObject.call(
-                        gson.fromJson(
-                                s,
-                                JSONObject.class
-                        )
+                callingObject.call(new JSONObject(s)
                 );
             }
         }
