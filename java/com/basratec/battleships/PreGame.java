@@ -156,7 +156,7 @@ public class PreGame extends AAPIableActivity {
                     public void run() {
                         ConnectionManager manager = new ConnectionManager(that);
                         manager.init();
-                        manager.send(json.toString());
+                        manager.send(json);
                     }
 
                 }).start();

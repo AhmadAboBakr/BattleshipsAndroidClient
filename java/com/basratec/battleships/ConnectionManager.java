@@ -78,6 +78,7 @@ public class ConnectionManager extends Thread {
                 connectionStatus = STATUS_FAILED;
             }
         }
+        message = new JSONObject();
     }
 
     /**
@@ -97,6 +98,7 @@ public class ConnectionManager extends Thread {
                     //send any messages waiting to be sent
                     while(!messageQueue.isEmpty()){
                         //todo start with the first message not the last
+                        //todo Discuss this further
                         send(messageQueue.pop());
                     }
                 }
@@ -130,7 +132,6 @@ public class ConnectionManager extends Thread {
      */
     private void listen(){
         try{
-            //Gson gson = new Gson();
             Scanner in = new Scanner(connection.getInputStream());
             while(in.hasNext()){
                 System.out.println("receiving message: ");
@@ -167,8 +168,8 @@ public class ConnectionManager extends Thread {
      *
      * @param message the message to send
      */
-    @Deprecated
     public void send(JSONObject message){
+        //to do discuss this
         this.message = message;
         send();
     }
@@ -196,7 +197,14 @@ public class ConnectionManager extends Thread {
         else{
             messageQueue.push(message);
         }
+        message= new JSONObject();
     }
+    /**
+     * Add a member to the message JSONObject,
+     * @param memberName the name of properties to add
+     * @param memberValue the value of the property
+     *
+     */
     public void addToMessage(String memberName,Object memberValue){
         try {
             message.accumulate(memberName,memberValue);

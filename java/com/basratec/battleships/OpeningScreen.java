@@ -30,8 +30,9 @@ public class OpeningScreen extends AAPIableActivity {
                 //initialize a new manager to send an event to the server
                 ConnectionManager manager = new ConnectionManager(that);
                 manager.init();
-                //todo use the oop way
-                manager.send("{\"event\":\"Opening Screen\",\"data\":\"nothing\"}");
+                manager.addToMessage("event","Opening Screen");
+                manager.addToMessage("data","nothing");
+                manager.send();
             }
 
         }).start();
