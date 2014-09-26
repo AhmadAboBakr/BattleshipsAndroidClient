@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  */
 public class TimeHelper {
 
-    public void setTimeOut(final int milliSeconds,final Method callback){
+    public static void setTimeOut(final int milliSeconds,final Method callback){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -30,7 +30,7 @@ public class TimeHelper {
             }
         }).start();
     }
-    public void setTimeInterval(final int milliSeconds,final Method callback){
+    public static void setTimeInterval(final int milliSeconds,final Method callback){
         new Thread(new Runnable() {
             @Override
             public void run() {

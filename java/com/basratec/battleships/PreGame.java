@@ -2,7 +2,9 @@ package com.basratec.battleships;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.net.Socket;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -61,7 +63,7 @@ public class PreGame extends AAPIableActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-connectionListener = new ConnectionManager(that);
+        connectionListener = new ConnectionManager(that);
         setContentView(R.layout.activity_pre_game);
         timer = (TextView)findViewById(R.id.timer);
         shipContainer = (LinearLayout) findViewById(R.id.shipContainer);
@@ -71,37 +73,11 @@ connectionListener = new ConnectionManager(that);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Thread timerThread = new Thread(new Runnable(){
-
-            @Override
-            public void run() {
-                int counter=15;
-                while(counter>0){
-                    counter--;
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            timer.setText("00:" + (Integer.parseInt(String.valueOf(timer.getText()).split(":")[1])-1)); //counter is reduced by one
-                        }
-                    });
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        Toast.makeText(getApplicationContext(), "Time ran out", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-
-        });
-        timerThread.start();
+        try {
+            TimeHelper.setTimeOut(1000,this.getClass().getMethod("updateTimer",null));
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -170,5 +146,28 @@ connectionListener = new ConnectionManager(that);
             }
         }
     }
+    public void updateTimer(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                timer.setText("00:" + (Integer.parseInt(String.valueOf(timer.getText()).split(":")[1])-1)); //counter is reduced by one
+            }
+        });
 
+        if(Integer.parseInt(String.valueOf(timer.getText()).split(":")[1])==0)
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Time ran out", Toast.LENGTH_LONG).show();
+                }
+            });
+        else {
+            try {
+                TimeHelper.setTimeOut(1000,this.getClass().getMethod("updateTimer",null));
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }
