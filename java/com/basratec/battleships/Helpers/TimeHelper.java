@@ -1,4 +1,4 @@
-package com.basratec.battleships;
+package com.basratec.battleships.Helpers;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;

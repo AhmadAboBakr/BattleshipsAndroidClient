@@ -2,22 +2,20 @@ package com.basratec.battleships;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
 import java.net.Socket;
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.basratec.battleships.Helpers.TimeHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +72,7 @@ public class PreGame extends AAPIableActivity {
             e.printStackTrace();
         }
         try {
-            TimeHelper.setTimeOut(1000,this.getClass().getMethod("updateTimer",null));
+            TimeHelper.setTimeOut(1000, this.getClass().getMethod("updateTimer", null));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
