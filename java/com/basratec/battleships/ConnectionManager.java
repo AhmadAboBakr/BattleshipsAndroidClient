@@ -2,6 +2,7 @@ package com.basratec.battleships;
 
 import android.content.Intent;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedWriter;
@@ -30,7 +31,7 @@ public class ConnectionManager extends Thread {
      * The connection to the server, only one connection, to preserve socket id
      */
     private SocketSinglton connection;
-
+    private JSONObject message;
     /**
      * whether or not we are connected to a server
      */
@@ -39,7 +40,7 @@ public class ConnectionManager extends Thread {
     /**
      * Any messages that need to be sent but waiting for server to connect
      */
-    private Stack<String> messageQueue = new Stack<String>();
+    private Stack<JSONObject> messageQueue = new Stack<JSONObject>();
 
     public static final int STATUS_NOT_INITIALIZED = 0;
 
@@ -95,7 +96,7 @@ public class ConnectionManager extends Thread {
                     successCallBack.call();
                     //send any messages waiting to be sent
                     while(!messageQueue.isEmpty()){
-                    	//todo start with the first message not the last
+                        //todo start with the first message not the last
                         send(messageQueue.pop());
                     }
                 }
@@ -150,15 +151,42 @@ public class ConnectionManager extends Thread {
      *
      * @param message the message to send
      */
+    @Deprecated
     public void send(String message){
+        try {
+            this.message = new JSONObject(message);
+            send();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Send a message to the server,
+     * if no connection is present it will wait until there is and then try sending again
+     *
+     * @param message the message to send
+     */
+    @Deprecated
+    public void send(JSONObject message){
+        this.message = message;
+        send();
+    }
+
+    /**
+     * Send a message to the server,
+     * if no connection is present it will wait until there is and then try sending again
+     *
+     */
+    public void send(){
         if(connectionStatus == STATUS_SUCCESS){
             System.out.println("sending message to server...");
-            System.out.println("message content: " + message);
+            System.out.println("message content: " + message.toString());
             try{
                 PrintWriter out = new PrintWriter(new BufferedWriter(
                         new OutputStreamWriter(connection.getOutputStream())),true);
                 System.out.println("sending...");
-                out.println(message);
+                out.println(message.toString());
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -167,6 +195,13 @@ public class ConnectionManager extends Thread {
         }
         else{
             messageQueue.push(message);
+        }
+    }
+    public void addToMessage(String memberName,Object memberValue){
+        try {
+            message.accumulate(memberName,memberValue);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }
