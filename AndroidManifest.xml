@@ -35,6 +35,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme" >
         </activity>
+        <activity android:name=".MainGame" />
 
 
     </application>

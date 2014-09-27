@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#FFCCCCCC"
     android:orientation="vertical"
-    tools:context=".MainGame" >
+    tools:context=".com.basratec.battleships.MainGame" >
 
     <!-- Top Buttons -->
 
