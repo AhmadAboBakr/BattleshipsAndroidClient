@@ -33,7 +33,7 @@ public abstract class AAPIableActivity extends Activity implements IAPIable {
                     @Override
                     public void run() {
                         try{
-                            System.out.println("calling "+eventName);
+                            System.out.println("calling "+eventName + " in class: "+that.getClass());
                             //we should find a way to support other "data" datatypes other than String
                             that.getClass().getMethod(eventName, cArg).invoke(this, data.getString("data"));
                         }catch (Exception e){

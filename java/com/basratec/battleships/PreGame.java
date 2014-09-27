@@ -63,6 +63,7 @@ public class PreGame extends AAPIableActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectionListener = new ConnectionManager(that);
+        connectionListener.start();
         setContentView(R.layout.activity_pre_game);
         timer = (TextView)findViewById(R.id.timer);
         shipContainer = (LinearLayout) findViewById(R.id.shipContainer);
@@ -122,11 +123,10 @@ public class PreGame extends AAPIableActivity {
     /**
      * This function should be called to start the main game
      */
-    public void start(){
+    public void start(String data){
         Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
-        connectionListener.stopListnening();
+        connectionListener.stopListening();
         startActivity(mainGame);
-        connectionListener.start();
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -134,25 +134,17 @@ public class PreGame extends AAPIableActivity {
         if(listIsEmpty){
             //send grid to server  (JSONArray) is promising but require Android API 19 or more we need a decision
             try {
-                final JSONObject json = new JSONObject();
-                json.put("event","finalizedGrid");
-                json.put("data",new JSONArray(gridMap));
+                final String grid = new JSONArray(gridMap).toString();
                 new Thread(new Runnable(){
                     @Override
                     public void run() {
                         ConnectionManager manager = new ConnectionManager(that);
                         manager.init();
-                        manager.send(json);
+                        manager.send("{\"event\":\"ready\",\"grid\":"+grid+"}");
                     }
-
                 }).start();
-                PrintWriter writer = new PrintWriter(connection.getOutputStream());
-                System.out.println(json.toString());
-                writer.write(json.toString());
 
             } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e){
                 e.printStackTrace();
             }
         }

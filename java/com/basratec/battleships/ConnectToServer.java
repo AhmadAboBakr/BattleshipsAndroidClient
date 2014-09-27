@@ -93,8 +93,7 @@ public class ConnectToServer extends AAPIableActivity {
                             }
                         }
                 );
-                manager.addToMessage("event","start");
-                manager.send(); //ask the server to start a game for us
+                manager.send("{\"event\":\"start\"}"); //ask the server to start a game for us
             }
 
         }).start();
@@ -103,11 +102,10 @@ public class ConnectToServer extends AAPIableActivity {
     /**
      * This function should be called to start the game
      */
-    public void start(){
+    public void start(String data){
         Intent preGame = new Intent(getApplicationContext(),PreGame.class);
-        connectionListener.stopListnening();
         startActivity(preGame);
-        connectionListener.start();
+        connectionListener.stopListening();
     }
 
     @Override
@@ -145,4 +143,5 @@ public class ConnectToServer extends AAPIableActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
 }

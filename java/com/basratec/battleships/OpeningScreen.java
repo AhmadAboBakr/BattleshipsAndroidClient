@@ -30,9 +30,7 @@ public class OpeningScreen extends AAPIableActivity {
                 //initialize a new manager to send an event to the server
                 ConnectionManager manager = new ConnectionManager(that);
                 manager.init();
-                manager.addToMessage("event","Opening Screen");
-                manager.addToMessage("data","nothing");
-                manager.send();
+                manager.send("{\"event\":\"OS\",\"data\":\"nothing\"}");
             }
 
         }).start();
@@ -67,8 +65,8 @@ public class OpeningScreen extends AAPIableActivity {
     }
     private void startButtonHandler(){
         Intent serverConnector = new Intent(this,ConnectToServer.class);
-        connectionListener.stopListnening();
+        connectionListener.stopListening();
         startActivity(serverConnector);
-        connectionListener.start();
+//        connectionListener.start();
     }
 }

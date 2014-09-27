@@ -40,7 +40,7 @@ public class ConnectionManager extends Thread {
     /**
      * Any messages that need to be sent but waiting for server to connect
      */
-    private Stack<JSONObject> messageQueue = new Stack<JSONObject>();
+    private Stack<String> messageQueue = new Stack<String>();
 
     public static final int STATUS_NOT_INITIALIZED = 0;
 
@@ -129,10 +129,12 @@ public class ConnectionManager extends Thread {
     /**
      * Listen to the server and call the calling object's "call" function if a message is received
      */
-    private void listen(){
+    public void listen(){
         try{
+            System.out.println("started listening in "+callingObject.getClass());
             Scanner in = new Scanner(connection.getInputStream());
-            while(!activityEnded){
+            while(in.hasNext() && !activityEnded){
+                System.out.println("has next or activity not ended in  "+callingObject.getClass());
                 System.out.println("receiving message: ");
                 String s = in.nextLine();
                 System.out.println(s);
@@ -143,6 +145,7 @@ public class ConnectionManager extends Thread {
         catch (Exception e){
             e.printStackTrace();
         }
+        System.out.println("stopped listening for activity: "+callingObject.getClass());
     }
 
 
@@ -150,44 +153,16 @@ public class ConnectionManager extends Thread {
      * Send a message to the server,
      * if no connection is present it will wait until there is and then try sending again
      *
-     * @param message the message to send
      */
-    @Deprecated
     public void send(String message){
-        try {
-            this.message = new JSONObject(message);
-            send();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Send a message to the server,
-     * if no connection is present it will wait until there is and then try sending again
-     *
-     * @param message the message to send
-     */
-    public void send(JSONObject message){
-        //to do discuss this
-        this.message = message;
-        send();
-    }
-
-    /**
-     * Send a message to the server,
-     * if no connection is present it will wait until there is and then try sending again
-     *
-     */
-    public void send(){
         if(connectionStatus == STATUS_SUCCESS){
             System.out.println("sending message to server...");
-            System.out.println("message content: " + message.toString());
+            System.out.println("message content: " + message);
             try{
                 PrintWriter out = new PrintWriter(new BufferedWriter(
                         new OutputStreamWriter(connection.getOutputStream())),true);
                 System.out.println("sending...");
-                out.println(message.toString());
+                out.println(message);
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -197,23 +172,10 @@ public class ConnectionManager extends Thread {
         else{
             messageQueue.push(message);
         }
-        message= new JSONObject();
-    }
-    /**
-     * Add a member to the message JSONObject,
-     * @param memberName the name of properties to add
-     * @param memberValue the value of the property
-     *
-     */
-    public void addToMessage(String memberName,Object memberValue){
-        try {
-            message.accumulate(memberName,memberValue);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
-    public void stopListnening(){
+    public void stopListening(){
+        System.out.println("will stop listening in "+ callingObject.getClass());
         this.activityEnded=true;
     }
 
