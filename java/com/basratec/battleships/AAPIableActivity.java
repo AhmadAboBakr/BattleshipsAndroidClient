@@ -35,7 +35,7 @@ public abstract class AAPIableActivity extends Activity implements IAPIable {
                         try{
                             System.out.println("calling "+eventName + " in class: "+that.getClass());
                             //we should find a way to support other "data" datatypes other than String
-                            that.getClass().getMethod(eventName, cArg).invoke(this, data.getString("data"));
+                            that.getClass().getMethod(eventName, cArg).invoke(that, data.getString("data"));
                         }catch (Exception e){
                             e.printStackTrace();
                         }

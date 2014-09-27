@@ -24,27 +24,18 @@ import org.json.JSONObject;
 
 public class PreGame extends AAPIableActivity {
     private ConnectionManager connectionListener;
-
     private Socket connection;
-
-    private int[] gridMap = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
+    private int[] gridMap = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private final int NUMBER_OF_SHIPS=6;
-
     private  boolean listIsEmpty;
-
     private TextView timer;
-
     private Vector<Boolean> shipsStatus;
-
     private LinearLayout shipContainer;
-
     private PreGame that = this;
 
-    private void initializeShips(){
 
-        shipsStatus = new Vector< Boolean>(NUMBER_OF_SHIPS);
+    private void initializeShips(){
+        shipsStatus = new Vector<Boolean>(NUMBER_OF_SHIPS);
 
         for(int i =0;i<NUMBER_OF_SHIPS;++i){
             ImageButton ship = new ImageButton(getApplicationContext());
@@ -57,7 +48,6 @@ public class PreGame extends AAPIableActivity {
             shipsStatus.add(new Boolean("true"));
         }
         shipContainer.invalidate();
-
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
