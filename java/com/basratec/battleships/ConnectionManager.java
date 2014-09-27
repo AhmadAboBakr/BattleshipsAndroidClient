@@ -133,13 +133,16 @@ public class ConnectionManager extends Thread {
         try{
             System.out.println("started listening in "+callingObject.getClass());
             Scanner in = new Scanner(connection.getInputStream());
-            while(in.hasNext() && !activityEnded){
-                System.out.println("has next or activity not ended in  "+callingObject.getClass());
-                System.out.println("receiving message: ");
-                String s = in.nextLine();
-                System.out.println(s);
-                callingObject.call(new JSONObject(s)
-                );
+            while(!activityEnded){
+                if(in.hasNext()){
+                    System.out.println("has next or activity not ended in  "+callingObject.getClass());
+                    System.out.println("receiving message: ");
+                    String s = in.nextLine();
+                    System.out.println(s);
+                    callingObject.call(new JSONObject(s)
+                    );
+                }
+
             }
         }
         catch (Exception e){
