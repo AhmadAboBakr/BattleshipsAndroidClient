@@ -54,9 +54,13 @@ public class ConnectionManager extends Thread {
      * The owning activity, mainly kept so that we can use its handlers when a server call comes
      */
     private AAPIableActivity callingObject;
-
+    private ArrayList<String> endingEvents;
     public ConnectionManager(AAPIableActivity callingObject) {
         this.callingObject = callingObject;
+    }
+    public ConnectionManager(AAPIableActivity callingObject,ArrayList<String> endingEvents) {
+        this.callingObject = callingObject;
+        this.endingEvents = endingEvents;
     }
 
     /**
@@ -133,14 +137,16 @@ public class ConnectionManager extends Thread {
         try{
             System.out.println("started listening in "+callingObject.getClass());
             Scanner in = new Scanner(connection.getInputStream());
-            while(in.hasNext() && !activityEnded){
-                System.out.println("has next or activity not ended in  "+callingObject.getClass());
+            while( in.hasNext() ){
+                System.out.println("has next or activity not ended in  " + callingObject.getClass());
                 System.out.println("receiving message: ");
                 String s = in.nextLine();
+                JSONObject message = new JSONObject(s);
                 System.out.println(s);
-                callingObject.call(new JSONObject(s)
-                );
+                callingObject.call(message);
+                if(endingEvents.contains(message.getString("event")))break; //this is what we discussed
             }
+
         }
         catch (Exception e){
             e.printStackTrace();
