@@ -44,11 +44,11 @@ public abstract class AAPIableActivity extends Activity implements IAPIable {
 
             }
             catch (Exception e){
-
+                e.printStackTrace();
             }
         }
         catch (JSONException e){
-
+            e.printStackTrace();
         }
     }
 }

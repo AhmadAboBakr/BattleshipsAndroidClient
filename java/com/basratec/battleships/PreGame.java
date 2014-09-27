@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.Vector;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -93,7 +94,7 @@ public class PreGame extends AAPIableActivity {
         int x = Integer.parseInt(cell);
         listIsEmpty=true;
         if (gridMap[x] == 1){
-            //TO Do add code to free a ship
+            //TODo add code to free a ship
             return;
         }
         for(int i=0;i<shipsStatus.size();++i){
@@ -116,6 +117,18 @@ public class PreGame extends AAPIableActivity {
         }
 
     }
+
+
+    /**
+     * This function should be called to start the main game
+     */
+    public void start(){
+        Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
+        connectionListener.stopListnening();
+        startActivity(mainGame);
+        connectionListener.start();
+    }
+
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void eshtaHandler(View view){
         if(listIsEmpty){
