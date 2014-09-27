@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 /**
@@ -58,7 +59,9 @@ public class ConnectToServer extends AAPIableActivity {
         mSystemUiHider = SystemUiHider.getInstance(this, contentView,0);
         mSystemUiHider.setup();
         //start listening to the server
-        connectionListener = new ConnectionManager(that);
+        ArrayList<String> endingEvents= new ArrayList<String>();
+        endingEvents.add("start");
+        connectionListener = new ConnectionManager(that,endingEvents);
         connectionListener.start();
 
         //connect to the server, show appropriate messages when connection fails or succeeds,

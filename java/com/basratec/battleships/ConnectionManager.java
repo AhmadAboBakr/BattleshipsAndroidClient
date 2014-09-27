@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class ConnectionManager extends Thread {
     private ArrayList<String> endingEvents;
     public ConnectionManager(AAPIableActivity callingObject) {
         this.callingObject = callingObject;
+        this.endingEvents = new ArrayList<String>();
     }
     public ConnectionManager(AAPIableActivity callingObject,ArrayList<String> endingEvents) {
         this.callingObject = callingObject;
@@ -136,10 +138,13 @@ public class ConnectionManager extends Thread {
     public void listen(){
         try{
             System.out.println("started listening in "+callingObject.getClass());
+            InputStream inStream = connection.getInputStream();
             Scanner in = new Scanner(connection.getInputStream());
-            while( in.hasNext() ){
+            while(true){
+                while( !(inStream.available() >0 ||activityEnded) );//wait for something or end task this should work and it's a non blocking way
                 System.out.println("has next or activity not ended in  " + callingObject.getClass());
                 System.out.println("receiving message: ");
+                if(this.activityEnded)break;
                 String s = in.nextLine();
                 JSONObject message = new JSONObject(s);
                 System.out.println(s);

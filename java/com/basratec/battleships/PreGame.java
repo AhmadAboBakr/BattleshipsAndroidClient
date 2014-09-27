@@ -3,6 +3,7 @@ package com.basratec.battleships;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import android.annotation.TargetApi;
@@ -52,7 +53,9 @@ public class PreGame extends AAPIableActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        connectionListener = new ConnectionManager(that);
+        ArrayList<String> endingEvents= new ArrayList<String>();
+        endingEvents.add("start");
+        connectionListener = new ConnectionManager(that,endingEvents);
         connectionListener.start();
         setContentView(R.layout.activity_pre_game);
         timer = (TextView)findViewById(R.id.timer);
