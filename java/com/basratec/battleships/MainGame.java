@@ -1,40 +1,42 @@
 package com.basratec.battleships;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
+import com.basratec.battleships.Helpers.Generators;
+
 /**
  * Created by nookz on 9/27/2014.
- * 
- * @param <boolen>
+ *
  */
 
 public class MainGame extends Activity {
 
 	private boolean PLAY_FLAG;
 
-	@Override
+    private LinearLayout myGridContainer;
+
+    private LinearLayout enemyGridContainer;
+
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_game);
+        myGridContainer = (LinearLayout) findViewById(R.id.MyGrid);
+        myGridContainer = Generators.addGridToContainer(5, 5, this, R.dimen.small_cell, R.dimen.small_cell, myGridContainer);
+
+        enemyGridContainer = (LinearLayout) findViewById(R.id.EnemyGrid);
+        enemyGridContainer = Generators.addGridToContainer(5, 5, this, R.dimen.cell, R.dimen.cell, enemyGridContainer);
+
 	}
-// not working yet ..
-	private void intializeMyGrid(int [] MyGrid) {
-/*
-		LinearLayout MyGridLayout = (LinearLayout) findViewById(R.id.MyGrid);
-		for (int i = 0; i <= gridSize; i++) {
-			if (MyGrid[i] == 1) {
-				currCell = (ImageButton) MyGridLayout.getChildAt(i);
-				currCell.setImageDrawable(getResources().getDrawable(
-						R.drawable.ship));
-			}
-		}*///endFor
-	}//endmethod
 
 	public boolean play() {
 		PLAY_FLAG = true;
-		// don't forget to disable it after play
+        enemyGridContainer.setBackground(getResources().getDrawable(R.drawable.enemy_border));
+        //wait for the player to play or something.
+        myGridContainer.setBackground(getResources().getDrawable(R.drawable.border));
 		return PLAY_FLAG;
 	}
 }

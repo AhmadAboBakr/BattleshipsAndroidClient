@@ -2,6 +2,7 @@ package com.basratec.battleships.Helpers;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -15,25 +16,40 @@ public class Generators {
 
 
     /**
-     * THis function generates the grid and put it in the desired container
-     * @param width the width of the grid
-     *  @param height the height of the grid
-     *  @param context the activity that initialized the generator
-     *  @return a lineaLayout containing the grid
+     * This function generates the grid and put it in the desired container
+     * todo get the values from config file (padding, background, cellWidth, etc..)
+     * todo what if we want to supply a RelativeLayout?
      *
+     * @param numberOfHorizontalCells the width of the grid in cells
+     * @param numberOfVerticalCells the height of the grid in cells
+     * @param context the activity that initialized the generator
+     * @param cellWidth the width of each cell
+     * @param cellHeight the height of each cell
+     * @param container the container layout
+     * @return a lineaLayout containing the grid
      */
-    public static LinearLayout generateGrid(int width,int height,Activity context){
-        LinearLayout container = new LinearLayout(context);
-        for(int i=0;i<height;++i){
+    public static LinearLayout addGridToContainer(
+            int numberOfHorizontalCells,
+            int numberOfVerticalCells,
+            Activity context,
+            int cellWidth,
+            int cellHeight,
+            LinearLayout container
+    ){
+        for(int i=0;i<numberOfVerticalCells;++i){
             LinearLayout row= new LinearLayout(context);
             row.setOrientation(LinearLayout.HORIZONTAL);
-            for(int j=0;j<width;++j){
+            for(int j=0;j<numberOfHorizontalCells;++j){
                 ImageButton ship = new ImageButton(context);
-                ship.setTag(i*width+j);
-                ship.setBackgroundColor(Color.rgb(0, 0, 255));
-                ship.setLayoutParams(new LinearLayout.LayoutParams((int) context.getResources().getDimension(R.dimen.cell), (int) context.getResources().getDimension(R.dimen.cell)));
+                ship.setTag(i*numberOfHorizontalCells+j);
+                ship.setBackgroundColor(Color.rgb(255, 255, 255));
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        (int) context.getResources().getDimension(cellWidth),
+                        (int) context.getResources().getDimension(cellHeight)
+                );
+                lp.setMargins(2,2,2,2);
+                ship.setLayoutParams(lp);
                 row.addView(ship);
-
             }
             container.addView(row);
         }

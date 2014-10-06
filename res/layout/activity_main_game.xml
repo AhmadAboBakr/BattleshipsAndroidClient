@@ -15,7 +15,7 @@
         android:orientation="horizontal"
         android:weightSum="1">
         <LinearLayout
-            android:id ="@+id/myGrid"
+            android:id ="@+id/myGridContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -29,302 +29,16 @@
                 android:gravity="center"
                 android:textColor="#333" />
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="1dp"
-    >
-    <!-- Top Row -->
-    <!-- irst row has an ID because i going to use it in Java when the app starts to set the first default color -->
-    <LinearLayout
-        android:id="@+id/MyGrid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="1" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="2" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="3" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="4" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="5" />
-
-
-
-    </LinearLayout>
-
-    <!-- start -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="6" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="7" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="8" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="9" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="10" />
-
-
-
-    </LinearLayout>
-
-    <!-- start -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="11" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="12" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="13" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="14" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="15" />
-
-
-
-    </LinearLayout>
-    <!-- end -->
-    <!-- end button -->
-    <LinearLayout
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="16" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="17" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="18" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="19" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="20" />
-
-
-
-    </LinearLayout>
-    <!-- Bottom Row -->
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="21" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="22" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="23" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="24" />
-
-        <ImageButton
-            android:layout_width="@dimen/small_cell"
-            android:layout_height="@dimen/small_cell"
-            android:layout_margin="1dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="25" />
-
-
-
-    </LinearLayout>
-
-
-
-</LinearLayout>
-
-
+            <LinearLayout
+                android:id="@+id/MyGrid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="2dp"
+            >
+            </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:id ="@+id/turn"
             android:layout_width="202dp"
@@ -332,6 +46,7 @@
             android:orientation="vertical"
             android:layout_marginLeft="20dp"
             android:weightSum="1">
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -342,11 +57,9 @@
                 android:textColor="#A66200"
                 android:id="@+id/turn_notifier"
                 android:singleLine="false" />
+
             </LinearLayout>
-
     </LinearLayout>
-
-    <!-- bottom (big) row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -356,13 +69,12 @@
         android:weightSum="1">
 
         <LinearLayout
-            android:id ="@+id/enamyGrid"
+            android:id ="@+id/enemyGridContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="vertical"
             android:layout_marginLeft="20dp">
-
 
             <TextView
                 android:layout_width="fill_parent"
@@ -372,304 +84,14 @@
                 android:textColor="#333" />
 
             <!-- the one with the border-->
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/enemy_border"
-    android:padding="2dp"
-    >
+            <LinearLayout
+                android:id="@+id/EnemyGrid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="2dp">
 
-    <!-- Top Row -->
-    <!-- irst row has an ID because i going to use it in Java when the app starts to set the first default color -->
-    <LinearLayout
-        android:id="@+id/EnemyGrid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="1" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="2" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="3" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="4" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="5" />
-
-
-
-    </LinearLayout>
-
-    <!-- start -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="6" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="7" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="8" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="9" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="10" />
-
-
-
-    </LinearLayout>
-
-    <!-- start -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="11" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="12" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="13" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="14" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="15" />
-
-
-
-    </LinearLayout>
-    <!-- end -->
-    <!-- end button -->
-    <LinearLayout
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="16" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="17" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="18" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="19" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="20" />
-
-
-
-    </LinearLayout>
-    <!-- Bottom Row -->
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="21" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="22" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="23" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="24" />
-
-        <ImageButton
-            android:layout_width="@dimen/cell"
-            android:layout_height="@dimen/cell"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-            android:contentDescription="@string/paint"
-            android:onClick="placeShip"
-            android:tag="25" />
-
-
-
-    </LinearLayout>
-
-    </LinearLayout>
-
+            </LinearLayout>
         </LinearLayout>
-
-
-
     </LinearLayout>
-
-    </LinearLayout>
+</LinearLayout>
