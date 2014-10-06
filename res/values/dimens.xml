@@ -11,7 +11,8 @@
 	<dimen name="medium_cell">20dp</dimen>
 	<integer name="medium_size"> 20</integer>
 	
-	<dimen name="cell">50dp</dimen>
+	<dimen name="small_cell">21dp</dimen>
+	<dimen name="cell">65dp</dimen>
 	<dimen name="ship">30dp</dimen>
 	<integer name="large_size">50</integer>
 	</resources>
