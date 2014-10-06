@@ -55,12 +55,18 @@ public class ConnectionManager extends Thread {
      * The owning activity, mainly kept so that we can use its handlers when a server call comes
      */
     private AAPIableActivity callingObject;
+
     private ArrayList<String> endingEvents;
-    public ConnectionManager(AAPIableActivity callingObject) {
+
+
+    public ConnectionManager(AAPIableActivity callingObject)
+    {
         this.callingObject = callingObject;
         this.endingEvents = new ArrayList<String>();
     }
-    public ConnectionManager(AAPIableActivity callingObject,ArrayList<String> endingEvents) {
+
+    public ConnectionManager(AAPIableActivity callingObject, ArrayList<String> endingEvents)
+    {
         this.callingObject = callingObject;
         this.endingEvents = endingEvents;
     }
@@ -68,7 +74,8 @@ public class ConnectionManager extends Thread {
     /**
      * initialize the connection, send any waiting messages
      */
-    public void init(){
+    public void init()
+    {
         connectionStatus = STATUS_TRYING; //initialize connection status
         while(true) { //keep trying until a connection is made (maybe there is a better way)
             try {
@@ -80,7 +87,6 @@ public class ConnectionManager extends Thread {
                 }
                 break; //successfully connected, no need to stay in this loop
             } catch (IOException e) {
-                e.printStackTrace();
                 connectionStatus = STATUS_FAILED;
             }
         }
@@ -93,7 +99,8 @@ public class ConnectionManager extends Thread {
      * @param successCallBack a callable that will be called upon success
      * @param failureCallBack a callable that will be called on failure
      */
-    public void init(Callable successCallBack, Callable failureCallBack){
+    public void init(Callable successCallBack, Callable failureCallBack)
+    {
         connectionStatus = STATUS_TRYING;
         while(true) {
             try {
@@ -113,7 +120,6 @@ public class ConnectionManager extends Thread {
                 }
                 break;
             } catch (IOException e) {
-                e.printStackTrace();
                 connectionStatus = STATUS_FAILED;
                 try{
                     failureCallBack.call();

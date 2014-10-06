@@ -37,7 +37,6 @@ public class OpeningScreen extends AAPIableActivity {
                 manager.init();
                 manager.send("{\"event\":\"OS\",\"data\":\"nothing\"}");
             }
-
         }).start();
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

@@ -35,8 +35,10 @@ public class ConnectToServer extends AAPIableActivity {
      */
     private ConnectToServer that = this;
     private ConnectionManager connectionListener;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_connecting_to_server);
@@ -61,7 +63,7 @@ public class ConnectToServer extends AAPIableActivity {
         //start listening to the server
         ArrayList<String> endingEvents= new ArrayList<String>();
         endingEvents.add("start");
-        connectionListener = new ConnectionManager(that,endingEvents);
+        connectionListener = new ConnectionManager(that, endingEvents);
         connectionListener.start();
 
         //connect to the server, show appropriate messages when connection fails or succeeds,
