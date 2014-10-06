@@ -67,7 +67,7 @@ public class PreGame extends AAPIableActivity {
             e.printStackTrace();
         }
         try {
-            TimeHelper.setTimeOut(1000, this.getClass().getMethod("updateTimer", null));
+            TimeHelper.setTimeOut(1000, that, this.getClass().getMethod("updateTimer", null));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -159,7 +159,7 @@ public class PreGame extends AAPIableActivity {
             });
         else {
             try {
-                TimeHelper.setTimeOut(1000,this.getClass().getMethod("updateTimer",null));
+                TimeHelper.setTimeOut(1000, that,this.getClass().getMethod("updateTimer",null));
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }

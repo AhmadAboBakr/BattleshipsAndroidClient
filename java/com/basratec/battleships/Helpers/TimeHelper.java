@@ -1,5 +1,7 @@
 package com.basratec.battleships.Helpers;
 
+import com.basratec.battleships.AAPIableActivity;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -9,7 +11,7 @@ import java.lang.reflect.Method;
  */
 public class TimeHelper {
 
-    public static void setTimeOut(final int milliSeconds,final Method callback){
+    public static void setTimeOut(final int milliSeconds, final AAPIableActivity context,final Method callback){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -17,7 +19,7 @@ public class TimeHelper {
                     for(int i=0;i<milliSeconds;++i){
                         Thread.sleep(1);
                     }
-                    callback.invoke(this);
+                    callback.invoke(context);
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();
