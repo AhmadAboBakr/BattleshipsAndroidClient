@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 
 public class OpeningScreen extends AAPIableActivity {
@@ -21,6 +22,10 @@ public class OpeningScreen extends AAPIableActivity {
         setContentView(R.layout.activity_start_game);
         Button start= (Button) findViewById(R.id.start);
         Button exit = (Button) findViewById(R.id.exit);
+        LinearLayout buttonsContainer = (LinearLayout) findViewById(R.id.buttons_container);
+        Button testMainGameUI = new Button(this);
+        testMainGameUI.setText("Test UI");
+        buttonsContainer.addView(testMainGameUI);
         //start a connection manager to listen to the server
         connectionListener = new ConnectionManager(that);
         connectionListener.start();
@@ -43,6 +48,14 @@ public class OpeningScreen extends AAPIableActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        testMainGameUI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
+                connectionListener.stopListening();
+                startActivity(mainGame);
             }
         });
     }
