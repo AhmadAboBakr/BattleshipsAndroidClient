@@ -50,8 +50,10 @@ public class PreGame extends AAPIableActivity {
         }
         shipContainer.invalidate();
     }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         ArrayList<String> endingEvents= new ArrayList<String>();
         endingEvents.add("start");
@@ -61,11 +63,6 @@ public class PreGame extends AAPIableActivity {
         timer = (TextView)findViewById(R.id.timer);
         shipContainer = (LinearLayout) findViewById(R.id.shipContainer);
         initializeShips();
-        try {
-            connection = SocketSinglton.getInstance();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         try {
             TimeHelper.setTimeOut(1000, that, this.getClass().getMethod("updateTimer", null));
         } catch (NoSuchMethodException e) {
@@ -82,32 +79,38 @@ public class PreGame extends AAPIableActivity {
 
     // usr clicked color
     public void placeShip(View view) {
-
+        System.out.println("Placing ship...");
         ImageButton imgView = (ImageButton) view;
         String cell = view.getTag().toString();
         int x = Integer.parseInt(cell);
         listIsEmpty=true;
         if (gridMap[x] == 1){
+            System.out.println("Ship already placed!");
             //TODo add code to free a ship
             return;
         }
+        System.out.println("looping something...");
         for(int i=0;i<shipsStatus.size();++i){
             if(shipsStatus.elementAt(i).booleanValue()){ // if a ship is still not clicked
-
+                System.out.println("Ship found!");
                 gridMap[x] = 1;
-                System.out.println("testdfs");
                 ImageButton ship= (ImageButton)shipContainer.getChildAt(i);
                 ship.setAlpha(.5f);
                 shipsStatus.set(i,Boolean.FALSE);
                 imgView.setImageDrawable(getResources().getDrawable(
                         R.drawable.ship));
                 listIsEmpty=false;
+                System.out.println("breaking...");
                 break;
 
             }
         }
         if(listIsEmpty){
+            System.out.println("list is empty!");
             //toast
+        }
+        else{
+            System.out.println("list is not empty!");
         }
 
     }
@@ -124,7 +127,9 @@ public class PreGame extends AAPIableActivity {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void eshtaHandler(View view){
+        System.out.println("Handling eshta!");
         if(listIsEmpty){
+            System.out.println("List is empty, continuing...");
             //send grid to server  (JSONArray) is promising but require Android API 19 or more we need a decision
             try {
                 final String grid = new JSONArray(gridMap).toString();

@@ -17,27 +17,34 @@ public class OpeningScreen extends AAPIableActivity {
     private OpeningScreen that = this;
     private ConnectionManager connectionListener;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_game);
+
         Button start= (Button) findViewById(R.id.start);
         Button exit = (Button) findViewById(R.id.exit);
+
         LinearLayout buttonsContainer = (LinearLayout) findViewById(R.id.buttons_container);
         Button testMainGameUI = new Button(this);
         testMainGameUI.setText("Test UI");
+        Button playAgainstAI = new Button(this);
+        playAgainstAI.setText("Play against AI");
+
         buttonsContainer.addView(testMainGameUI);
+
         //start a connection manager to listen to the server
         connectionListener = new ConnectionManager(that);
         connectionListener.start();
-        new Thread(new Runnable(){
-			@Override
-			public void run() {
-                //initialize a new manager to send an event to the server
-                ConnectionManager manager = new ConnectionManager(that);
-                manager.init();
-                manager.send("{\"event\":\"OS\",\"data\":\"nothing\"}");
-            }
-        }).start();
+//        new Thread(new Runnable(){
+//			@Override
+//			public void run() {
+//                //initialize a new manager to send an event to the server
+//                ConnectionManager manager = new ConnectionManager(that);
+//                manager.init();
+//                manager.send("{\"event\":\"OS\",\"data\":\"nothing\"}");
+//            }
+//        }).start();
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startButtonHandler();
@@ -55,6 +62,14 @@ public class OpeningScreen extends AAPIableActivity {
                 Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
                 connectionListener.stopListening();
                 startActivity(mainGame);
+            }
+        });
+        testMainGameUI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent preGame = new Intent(getApplicationContext(),PreGame.class);
+                connectionListener.stopListening();
+                startActivity(preGame);
             }
         });
     }

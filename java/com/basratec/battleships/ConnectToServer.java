@@ -98,6 +98,7 @@ public class ConnectToServer extends AAPIableActivity {
                             }
                         }
                 );
+                System.out.println("sending: {\"event\":\"start\"}");
                 manager.send("{\"event\":\"start\"}"); //ask the server to start a game for us
             }
 
