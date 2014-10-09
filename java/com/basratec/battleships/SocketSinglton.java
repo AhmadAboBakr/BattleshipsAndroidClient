@@ -10,7 +10,7 @@ public class SocketSinglton  extends Socket
 {
     public static SocketSinglton instance = null;
 
-    private static final String address="192.168.1.69";
+    private static final String address="107.150.1.233";
 
     private static final int port=6969;
 

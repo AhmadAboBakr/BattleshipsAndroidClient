@@ -11,6 +11,7 @@ import com.basratec.battleships.Helpers.Generators;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by nookz on 9/27/2014.
@@ -72,27 +73,45 @@ public class MainGame extends AAPIableActivity {
         }).start();
     }
 
-    public void firedAt(int position)
+    public void firedAt(String datas)
     {
+        int data = Integer.parseInt(datas);
+        int cellPos =0;
+        cellPos = data;
+        try{
+            System.out.println("cell positin: " + cellPos);
+            ImageButton cell ;
+            int horizontalNumber = (int)(cellPos/5);
+            LinearLayout ll1 = (LinearLayout)findViewById(R.id.MyGrid);
+            LinearLayout ll2 = (LinearLayout)ll1.getChildAt(horizontalNumber);
+            cell = (ImageButton)ll2.getChildAt(cellPos%5);
+            System.out.println("cell : " + cell.getBackground().getAlpha());
+            if(true){
+                cell.setBackgroundColor(Color.parseColor("#5555FF"));
+            }
+            else{
+                cell.setBackgroundColor(Color.parseColor("#FFFF55"));
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void playResult(String data)
+    {
+//        int cellPosition = Integer.parseInt(data);
+//        boolean hit = true;
+//
+//        ImageButton cell = (ImageButton)findViewById(cellPosition);
 //        if(hit){
 //            cell.setBackgroundColor(Color.parseColor("#55f"));
 //        }
 //        else{
 //            cell.setBackgroundColor(Color.parseColor("#ff5"));
 //        }
-    }
-
-    public void playResult(int cellPosition, boolean hit)
-    {
-        ImageButton cell = (ImageButton)findViewById(cellPosition);
-        if(hit){
-            cell.setBackgroundColor(Color.parseColor("#55f"));
-        }
-        else{
-            cell.setBackgroundColor(Color.parseColor("#ff5"));
-        }
-        enemyGridContainer.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        myGridContainer.setBackground(getResources().getDrawable(R.drawable.border));
+//        enemyGridContainer.setBackgroundColor(Color.parseColor("#FFFFFF"));
+//        myGridContainer.setBackground(getResources().getDrawable(R.drawable.border));
     }
 
 	public void play(String data)
