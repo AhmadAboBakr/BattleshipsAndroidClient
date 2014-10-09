@@ -64,14 +64,6 @@ public class OpeningScreen extends AAPIableActivity {
                 startActivity(mainGame);
             }
         });
-        testMainGameUI.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent preGame = new Intent(getApplicationContext(),PreGame.class);
-                connectionListener.stopListening();
-                startActivity(preGame);
-            }
-        });
     }
 
 

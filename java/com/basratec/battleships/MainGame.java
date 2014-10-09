@@ -32,6 +32,8 @@ public class MainGame extends AAPIableActivity {
 
     protected String[] callables = {"firedAt", "playResult", "play"};
 
+    protected int lastFiredAtCell;
+
     @Override
 	public void onCreate(Bundle savedInstanceState)
     {
@@ -61,6 +63,7 @@ public class MainGame extends AAPIableActivity {
     public void fireAt(View view)
     {
         final String cell = view.getTag().toString();
+        lastFiredAtCell = Integer.parseInt(cell);
 
         new Thread(new Runnable(){
             @Override
@@ -100,24 +103,33 @@ public class MainGame extends AAPIableActivity {
 
     public void playResult(String data)
     {
-//        int cellPosition = Integer.parseInt(data);
-//        boolean hit = true;
-//
-//        ImageButton cell = (ImageButton)findViewById(cellPosition);
-//        if(hit){
-//            cell.setBackgroundColor(Color.parseColor("#55f"));
-//        }
-//        else{
-//            cell.setBackgroundColor(Color.parseColor("#ff5"));
-//        }
-//        enemyGridContainer.setBackgroundColor(Color.parseColor("#FFFFFF"));
-//        myGridContainer.setBackground(getResources().getDrawable(R.drawable.border));
+        try{
+            int cellPosition = lastFiredAtCell;
+            boolean hit = Boolean.parseBoolean(data);
+            ImageButton cell ;
+            int horizontalNumber = (int)(cellPosition/5);
+            LinearLayout ll1 = (LinearLayout)findViewById(R.id.EnemyGrid);
+            LinearLayout ll2 = (LinearLayout)ll1.getChildAt(horizontalNumber);
+            cell = (ImageButton)ll2.getChildAt(cellPosition%5);
+            System.out.println(cell.getClass());
+            if(hit){
+                cell.setBackgroundColor(Color.parseColor("#5555FF"));
+            }
+            else{
+                cell.setBackgroundColor(Color.parseColor("#FFFF55"));
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        enemyGridContainer.setBackgroundColor(Color.parseColor("#CCCCCC"));
+        myGridContainer.setBackground(getResources().getDrawable(R.drawable.border));
     }
 
 	public void play(String data)
     {
 		PLAY_FLAG = true;
         enemyGridContainer.setBackground(getResources().getDrawable(R.drawable.enemy_border));
-        myGridContainer.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        myGridContainer.setBackgroundColor(Color.parseColor("#CCCCCC"));
 	}
 }
