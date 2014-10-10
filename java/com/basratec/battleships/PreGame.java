@@ -26,7 +26,7 @@ import org.json.JSONObject;
 public class PreGame extends AAPIableActivity {
     private ConnectionManager connectionListener;
     private Socket connection;
-    private int[] gridMap = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    private int[] gridMap = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private final int NUMBER_OF_SHIPS=6;
     private  boolean listIsEmpty;
     private TextView timer;
@@ -55,10 +55,7 @@ public class PreGame extends AAPIableActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        ArrayList<String> endingEvents= new ArrayList<String>();
-        endingEvents.add("start");
-        connectionListener = new ConnectionManager(that,endingEvents);
-        connectionListener.start();
+        connectionListener = ConnectionManager.getListener(that);
         setContentView(R.layout.activity_pre_game);
         timer = (TextView)findViewById(R.id.timer);
         shipContainer = (LinearLayout) findViewById(R.id.shipContainer);
@@ -79,7 +76,6 @@ public class PreGame extends AAPIableActivity {
 
     // usr clicked color
     public void placeShip(View view) {
-        System.out.println("Placing ship...");
         ImageButton imgView = (ImageButton) view;
         String cell = view.getTag().toString();
         int x = Integer.parseInt(cell);
@@ -121,7 +117,7 @@ public class PreGame extends AAPIableActivity {
      */
     public void start(String data){
         Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
-        connectionListener.stopListening();
+//        connectionListener.stopListening();
         startActivity(mainGame);
     }
 
@@ -136,7 +132,7 @@ public class PreGame extends AAPIableActivity {
                 new Thread(new Runnable(){
                     @Override
                     public void run() {
-                        ConnectionManager manager = new ConnectionManager(that);
+                        ConnectionManager manager = ConnectionManager.getSender(that);
                         manager.init();
                         manager.send("{\"event\":\"ready\",\"grid\":"+grid+"}");
                     }

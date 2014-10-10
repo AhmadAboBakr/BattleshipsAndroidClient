@@ -34,8 +34,7 @@ public class OpeningScreen extends AAPIableActivity {
         buttonsContainer.addView(testMainGameUI);
 
         //start a connection manager to listen to the server
-        connectionListener = new ConnectionManager(that);
-        connectionListener.start();
+        connectionListener = ConnectionManager.getListener(that);
 //        new Thread(new Runnable(){
 //			@Override
 //			public void run() {
@@ -84,7 +83,7 @@ public class OpeningScreen extends AAPIableActivity {
     }
     private void startButtonHandler(){
         Intent serverConnector = new Intent(this,ConnectToServer.class);
-        connectionListener.stopListening();
+//        connectionListener.stopListening();
         startActivity(serverConnector);
 //        connectionListener.start();
     }

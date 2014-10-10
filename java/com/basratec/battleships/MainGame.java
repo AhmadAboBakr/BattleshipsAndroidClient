@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.basratec.battleships.Helpers.Generators;
 
@@ -25,6 +26,8 @@ public class MainGame extends AAPIableActivity {
     private LinearLayout myGridContainer;
 
     private LinearLayout enemyGridContainer;
+
+    private TextView turnNotifier;
 
     protected MainGame mainGame = this;
 
@@ -47,9 +50,9 @@ public class MainGame extends AAPIableActivity {
         enemyGridContainer = Generators.addClickableGridToContainer(
                 5, 5, this, R.dimen.cell, R.dimen.cell, enemyGridContainer, ocl
         );
+        turnNotifier = (TextView)findViewById(R.id.turn_notifier);
 
-        connectionListener = new ConnectionManager(mainGame);
-        connectionListener.start();
+        connectionListener = ConnectionManager.getListener(this);
 	}
 
     public class OnCellClickListener implements View.OnClickListener
@@ -62,13 +65,16 @@ public class MainGame extends AAPIableActivity {
 
     public void fireAt(View view)
     {
+        if(!PLAY_FLAG){ //not my turn
+            return;
+        }
         final String cell = view.getTag().toString();
         lastFiredAtCell = Integer.parseInt(cell);
 
         new Thread(new Runnable(){
             @Override
             public void run() {
-                ConnectionManager manager = new ConnectionManager(that);
+                ConnectionManager manager = ConnectionManager.getSender(mainGame);
                 manager.init();
                 manager.send("{\"event\":\"fireAt\",\"position\":"+cell+"}");
                 PLAY_FLAG = false;
@@ -103,6 +109,7 @@ public class MainGame extends AAPIableActivity {
 
     public void playResult(String data)
     {
+        System.out.println("play result: "+data);
         try{
             int cellPosition = lastFiredAtCell;
             boolean hit = Boolean.parseBoolean(data);
@@ -124,6 +131,7 @@ public class MainGame extends AAPIableActivity {
         }
         enemyGridContainer.setBackgroundColor(Color.parseColor("#CCCCCC"));
         myGridContainer.setBackground(getResources().getDrawable(R.drawable.border));
+        turnNotifier.setText("Waiting for other player..");
     }
 
 	public void play(String data)
@@ -131,5 +139,6 @@ public class MainGame extends AAPIableActivity {
 		PLAY_FLAG = true;
         enemyGridContainer.setBackground(getResources().getDrawable(R.drawable.enemy_border));
         myGridContainer.setBackgroundColor(Color.parseColor("#CCCCCC"));
+        turnNotifier.setText("Your Turn!");
 	}
 }

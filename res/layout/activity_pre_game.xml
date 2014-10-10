@@ -75,6 +75,16 @@
                     android:onClick="placeShip"
 
                     android:src="@drawable/paint"
+                    android:tag="0" />
+
+                <ImageButton
+                    android:layout_width="@dimen/medium_cell"
+                    android:layout_height="@dimen/medium_cell"
+                    android:layout_margin="2dp"
+                    android:background="#FF0000FF"
+                    android:contentDescription="@string/paint"
+                    android:onClick="placeShip"
+                    android:src="@drawable/paint"
                     android:tag="1" />
 
                 <ImageButton
@@ -107,16 +117,6 @@
                     android:src="@drawable/paint"
                     android:tag="4" />
 
-                <ImageButton
-                    android:layout_width="@dimen/medium_cell"
-                    android:layout_height="@dimen/medium_cell"
-                    android:layout_margin="2dp"
-                    android:background="#FF0000FF"
-                    android:contentDescription="@string/paint"
-                    android:onClick="placeShip"
-                    android:src="@drawable/paint"
-                    android:tag="5" />
-
 
 
             </LinearLayout>
@@ -127,6 +127,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
+
+                <ImageButton
+                    android:layout_width="@dimen/medium_cell"
+                    android:layout_height="@dimen/medium_cell"
+                    android:layout_margin="2dp"
+                    android:background="#FF0000FF"
+                    android:contentDescription="@string/paint"
+                    android:onClick="placeShip"
+                    android:src="@drawable/paint"
+                    android:tag="5" />
 
                 <ImageButton
                     android:layout_width="@dimen/medium_cell"
@@ -168,16 +178,6 @@
                     android:src="@drawable/paint"
                     android:tag="9" />
 
-                <ImageButton
-                    android:layout_width="@dimen/medium_cell"
-                    android:layout_height="@dimen/medium_cell"
-                    android:layout_margin="2dp"
-                    android:background="#FF0000FF"
-                    android:contentDescription="@string/paint"
-                    android:onClick="placeShip"
-                    android:src="@drawable/paint"
-                    android:tag="10" />
-
 
 
             </LinearLayout>
@@ -188,6 +188,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
+
+                <ImageButton
+                    android:layout_width="@dimen/medium_cell"
+                    android:layout_height="@dimen/medium_cell"
+                    android:layout_margin="2dp"
+                    android:background="#FF0000FF"
+                    android:contentDescription="@string/paint"
+                    android:onClick="placeShip"
+                    android:src="@drawable/paint"
+                    android:tag="10" />
 
                 <ImageButton
                     android:layout_width="@dimen/medium_cell"
@@ -229,16 +239,6 @@
                     android:src="@drawable/paint"
                     android:tag="14" />
 
-                <ImageButton
-                    android:layout_width="@dimen/medium_cell"
-                    android:layout_height="@dimen/medium_cell"
-                    android:layout_margin="2dp"
-                    android:background="#FF0000FF"
-                    android:contentDescription="@string/paint"
-                    android:onClick="placeShip"
-                    android:src="@drawable/paint"
-                    android:tag="15" />
-
 
 
             </LinearLayout>
@@ -250,6 +250,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
+
+                <ImageButton
+                    android:layout_width="@dimen/medium_cell"
+                    android:layout_height="@dimen/medium_cell"
+                    android:layout_margin="2dp"
+                    android:background="#FF0000FF"
+                    android:contentDescription="@string/paint"
+                    android:onClick="placeShip"
+                    android:src="@drawable/paint"
+                    android:tag="15" />
 
                 <ImageButton
                     android:layout_width="@dimen/medium_cell"
@@ -291,16 +301,6 @@
                     android:src="@drawable/paint"
                     android:tag="19" />
 
-                <ImageButton
-                    android:layout_width="@dimen/medium_cell"
-                    android:layout_height="@dimen/medium_cell"
-                    android:layout_margin="2dp"
-                    android:background="#FF0000FF"
-                    android:contentDescription="@string/paint"
-                    android:onClick="placeShip"
-                    android:src="@drawable/paint"
-                    android:tag="20" />
-
 
 
             </LinearLayout>
@@ -311,6 +311,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
+
+                <ImageButton
+                    android:layout_width="@dimen/medium_cell"
+                    android:layout_height="@dimen/medium_cell"
+                    android:layout_margin="2dp"
+                    android:background="#FF0000FF"
+                    android:contentDescription="@string/paint"
+                    android:onClick="placeShip"
+                    android:src="@drawable/paint"
+                    android:tag="20" />
 
                 <ImageButton
                     android:layout_width="@dimen/medium_cell"
@@ -351,16 +361,6 @@
                     android:onClick="placeShip"
                     android:src="@drawable/paint"
                     android:tag="24" />
-
-                <ImageButton
-                    android:layout_width="@dimen/medium_cell"
-                    android:layout_height="@dimen/medium_cell"
-                    android:layout_margin="2dp"
-                    android:background="#FF0000FF"
-                    android:contentDescription="@string/paint"
-                    android:onClick="placeShip"
-                    android:src="@drawable/paint"
-                    android:tag="25" />
 
 
 

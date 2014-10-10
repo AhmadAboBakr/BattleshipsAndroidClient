@@ -32,7 +32,10 @@ public class ConnectionManager extends Thread {
      * The connection to the server, only one connection, to preserve socket id
      */
     private SocketSinglton connection;
-    private JSONObject message;
+
+    private static ConnectionManager listener;
+
+    private static ConnectionManager sender;
     /**
      * whether or not we are connected to a server
      */
@@ -52,23 +55,53 @@ public class ConnectionManager extends Thread {
     public static final int STATUS_TRYING = 3;
 
     /**
-     * The owning activity, mainly kept so that we can use its handlers when a server call comes
+     * The currently running activity
      */
-    private AAPIableActivity callingObject;
+    private AAPIableActivity currentActivity;
 
     private ArrayList<String> endingEvents;
 
+    /**
+     * Should be set to true to stop listening to the server
+     */
+    protected boolean stopListening = false;
 
-    public ConnectionManager(AAPIableActivity callingObject)
+    private ConnectionManager(AAPIableActivity activity)
     {
-        this.callingObject = callingObject;
-        this.endingEvents = new ArrayList<String>();
+        super();
+        currentActivity = activity;
     }
 
-    public ConnectionManager(AAPIableActivity callingObject, ArrayList<String> endingEvents)
+    public static ConnectionManager getListener(AAPIableActivity activity)
     {
-        this.callingObject = callingObject;
-        this.endingEvents = endingEvents;
+        if(null == listener){
+            listener = new ConnectionManager(activity);
+            listener.start();
+        }
+        else{
+            listener.stopListening();
+            listener.setCurrentActivity(activity);
+            listener.listen();
+        }
+        listener.stopListening = false;
+        System.out.println("started listening for activity: "+activity.getClass());
+        return listener;
+    }
+
+    public static ConnectionManager getSender(AAPIableActivity activity)
+    {
+        if(null == sender){
+            sender = new ConnectionManager(activity);
+        }
+        else{
+            sender.setCurrentActivity(activity);
+        }
+        return sender;
+    }
+
+    public void setCurrentActivity(AAPIableActivity activity)
+    {
+        currentActivity = activity;
     }
 
     /**
@@ -90,7 +123,6 @@ public class ConnectionManager extends Thread {
                 connectionStatus = STATUS_FAILED;
             }
         }
-        message = new JSONObject();
     }
 
     /**
@@ -143,26 +175,24 @@ public class ConnectionManager extends Thread {
      */
     public void listen(){
         try{
-            System.out.println("started listening in "+callingObject.getClass());
+            System.out.println("started listening in "+currentActivity.getClass());
             InputStream inStream = connection.getInputStream();
             Scanner in = new Scanner(connection.getInputStream());
-            while(true){
-                while( !(inStream.available() >0 ||activityEnded) );//wait for something or end task this should work and it's a non blocking way
-                System.out.println("has next or activity not ended in  " + callingObject.getClass());
-                System.out.println("receiving message: ");
-                if(this.activityEnded)break;
+            System.out.println("stopped listening: "+ stopListening);
+            while( !stopListening && in.hasNext() ){
+                System.out.println("has next and activity not ended in  " + currentActivity.getClass());
+                if(this.stopListening)break;
+                System.out.println("did not stop listening!");
                 String s = in.nextLine();
+                System.out.println("receiving message: "+s);
                 JSONObject message = new JSONObject(s);
-                System.out.println(s);
-                callingObject.call(message);
-                if(endingEvents.contains(message.getString("event")))break; //this is what we discussed
+                currentActivity.call(message);
             }
-
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println("stopped listening for activity: "+callingObject.getClass());
+        System.out.println("stopped listening for activity: "+currentActivity.getClass());
     }
 
 
@@ -192,8 +222,8 @@ public class ConnectionManager extends Thread {
     }
 
     public void stopListening(){
-        System.out.println("will stop listening in "+ callingObject.getClass());
-        this.activityEnded=true;
+        System.out.println("will stop listening in "+ currentActivity.getClass());
+        stopListening = true;
     }
 
 }

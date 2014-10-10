@@ -60,18 +60,14 @@ public class ConnectToServer extends AAPIableActivity {
         final View contentView = findViewById(R.id.fullscreen_content);
         mSystemUiHider = SystemUiHider.getInstance(this, contentView,0);
         mSystemUiHider.setup();
-        //start listening to the server
-        ArrayList<String> endingEvents= new ArrayList<String>();
-        endingEvents.add("start");
-        connectionListener = new ConnectionManager(that, endingEvents);
-        connectionListener.start();
+        connectionListener = ConnectionManager.getListener(that);
 
         //connect to the server, show appropriate messages when connection fails or succeeds,
         //and then send the "start" event
         new Thread(new Runnable(){
             @Override
             public void run() {
-                ConnectionManager manager = new ConnectionManager(that);
+                ConnectionManager manager = ConnectionManager.getSender(that);
                 manager.init(
                         new Callable() { //the success callback
                             @Override
@@ -110,8 +106,8 @@ public class ConnectToServer extends AAPIableActivity {
      */
     public void start(String data){
         Intent preGame = new Intent(getApplicationContext(),PreGame.class);
+//        connectionListener.stopListening();
         startActivity(preGame);
-        connectionListener.stopListening();
     }
 
     @Override
