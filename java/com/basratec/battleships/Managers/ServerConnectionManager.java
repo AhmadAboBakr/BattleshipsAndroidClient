@@ -1,4 +1,8 @@
-package com.basratec.battleships;
+package com.basratec.battleships.Managers;
+
+import com.basratec.battleships.AAPIableActivity;
+import com.basratec.battleships.ConnectToServer;
+import com.basratec.battleships.SocketSinglton;
 
 import org.json.JSONObject;
 
@@ -14,7 +18,7 @@ import java.util.concurrent.Callable;
 
 /**
  * Manages the connection between the client and the server
- * After initializing, the ConnectionManager should either:
+ * After initializing, the ServerConnectionManager should either:
  * 1. listen to the server for any
  *    incoming events, and if given an APIable class in the constructor, a function will
  *    automatically be called using its "call()" function.
@@ -22,21 +26,20 @@ import java.util.concurrent.Callable;
  * 2. send a message to the server, in this case, the CM will wait until a connection is made
  *    and send all messages waiting to be sent
  */
-public class ConnectionManager extends Thread {
+public class ServerConnectionManager extends ConnectionManager {
 
     /**
      * The connection to the server, only one connection, to preserve socket id
      */
     private SocketSinglton connection;
 
-    private static ConnectionManager listener;
+    private static ServerConnectionManager listener;
 
-    private static ConnectionManager sender;
+    private static ServerConnectionManager sender;
     /**
      * whether or not we are connected to a server
      */
     private int connectionStatus = STATUS_NOT_INITIALIZED;
-    private boolean activityEnded=false;
     /**
      * Any messages that need to be sent but waiting for server to connect
      */
@@ -53,7 +56,6 @@ public class ConnectionManager extends Thread {
     /**
      * The currently running activity
      */
-    private AAPIableActivity currentActivity;
 
     private ArrayList<String> endingEvents;
 
@@ -62,32 +64,22 @@ public class ConnectionManager extends Thread {
      */
     protected boolean stopListening = false;
 
-    private ConnectionManager(AAPIableActivity activity)
+    protected ServerConnectionManager()
     {
         super();
-        currentActivity = activity;
     }
 
-    public static ConnectionManager getListener(AAPIableActivity activity)
+    public  void startListning(AAPIableActivity activity)
     {
-        if(null == listener){
-            listener = new ConnectionManager(activity);
-            listener.start();
-        }
-        else{
-            listener.stopListening();
             listener.setCurrentActivity(activity);
             listener.start();
-        }
-        listener.stopListening = false;
         System.out.println("started listening for activity: "+activity.getClass());
-        return listener;
     }
 
-    public static ConnectionManager getSender(AAPIableActivity activity)
+    public static ServerConnectionManager getSender(AAPIableActivity activity)
     {
         if(null == sender){
-            sender = new ConnectionManager(activity);
+          //  sender = new ServerConnectionManager(activity);
         }
         else{
             sender.setCurrentActivity(activity);
@@ -103,7 +95,7 @@ public class ConnectionManager extends Thread {
     /**
      * initialize the connection, send any waiting messages
      */
-    public void init()
+    private void init()
     {
         connectionStatus = STATUS_TRYING; //initialize connection status
         while(true) { //keep trying until a connection is made (maybe there is a better way)
@@ -127,7 +119,7 @@ public class ConnectionManager extends Thread {
      * @param successCallBack a callable that will be called upon success
      * @param failureCallBack a callable that will be called on failure
      */
-    public void init(Callable successCallBack, Callable failureCallBack)
+    private void init(Callable successCallBack, Callable failureCallBack)
     {
         connectionStatus = STATUS_TRYING;
         while(true) {
@@ -169,7 +161,7 @@ public class ConnectionManager extends Thread {
     /**
      * Listen to the server and call the calling object's "call" function if a message is received
      */
-    public void listen(){
+    protected void listen(){
         try{
             System.out.println("started listening in "+currentActivity.getClass());
             InputStream inStream = connection.getInputStream();
@@ -217,7 +209,7 @@ public class ConnectionManager extends Thread {
         }
     }
 
-    public void stopListening(){
+    private void stopListening(){
         System.out.println("will stop listening in "+ currentActivity.getClass());
         stopListening = true;
     }

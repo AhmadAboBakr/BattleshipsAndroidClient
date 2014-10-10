@@ -1,5 +1,6 @@
 package com.basratec.battleships;
 
+import com.basratec.battleships.Managers.ServerConnectionManager;
 import com.basratec.battleships.util.SystemUiHider;
 
 import android.content.Intent;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 /**
@@ -34,7 +34,7 @@ public class ConnectToServer extends AAPIableActivity {
      * Caching self reference for embedded functions and classes to use
      */
     private ConnectToServer that = this;
-    private ConnectionManager connectionListener;
+    private ServerConnectionManager connectionListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,14 +60,14 @@ public class ConnectToServer extends AAPIableActivity {
         final View contentView = findViewById(R.id.fullscreen_content);
         mSystemUiHider = SystemUiHider.getInstance(this, contentView,0);
         mSystemUiHider.setup();
-        connectionListener = ConnectionManager.getListener(that);
+        connectionListener = ServerConnectionManager.startListning(that);
 
         //connect to the server, show appropriate messages when connection fails or succeeds,
         //and then send the "start" event
         new Thread(new Runnable(){
             @Override
             public void run() {
-                ConnectionManager manager = ConnectionManager.getSender(that);
+                ServerConnectionManager manager = ServerConnectionManager.getSender(that);
                 manager.init(
                         new Callable() { //the success callback
                             @Override

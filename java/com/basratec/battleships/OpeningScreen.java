@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.basratec.battleships.Managers.ServerConnectionManager;
+
 
 public class OpeningScreen extends AAPIableActivity {
 
@@ -15,7 +17,7 @@ public class OpeningScreen extends AAPIableActivity {
      * caching for use in embedded classes
      */
     private OpeningScreen that = this;
-    private ConnectionManager connectionListener;
+    private ServerConnectionManager connectionListener;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -34,12 +36,12 @@ public class OpeningScreen extends AAPIableActivity {
         buttonsContainer.addView(testMainGameUI);
 
         //start a connection manager to listen to the server
-        connectionListener = ConnectionManager.getListener(that);
+        connectionListener = ServerConnectionManager.startListning(that);
 //        new Thread(new Runnable(){
 //			@Override
 //			public void run() {
 //                //initialize a new manager to send an event to the server
-//                ConnectionManager manager = new ConnectionManager(that);
+//                ServerConnectionManager manager = new ServerConnectionManager(that);
 //                manager.init();
 //                manager.send("{\"event\":\"OS\",\"data\":\"nothing\"}");
 //            }
