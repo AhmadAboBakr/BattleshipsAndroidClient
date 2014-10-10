@@ -34,7 +34,8 @@ public class Generators {
             Activity context,
             int cellWidth,
             int cellHeight,
-            LinearLayout container
+            LinearLayout container,
+            int[] gridMap
     ){
         for(int i=0;i<numberOfVerticalCells;++i){
             LinearLayout row= new LinearLayout(context);
@@ -42,7 +43,12 @@ public class Generators {
             for(int j=0;j<numberOfHorizontalCells;++j){
                 ImageButton ship = new ImageButton(context);
                 ship.setTag(i*numberOfHorizontalCells+j);
-                ship.setBackgroundColor(Color.rgb(255, 255, 255));
+                if(1 == gridMap[i*numberOfHorizontalCells+j]){
+                    ship.setBackgroundColor(Color.rgb(10, 255, 10));
+                }
+                else{
+                    ship.setBackgroundColor(Color.rgb(255, 255, 255));
+                }
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         (int) context.getResources().getDimension(cellWidth),
                         (int) context.getResources().getDimension(cellHeight)

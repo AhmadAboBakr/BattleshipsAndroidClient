@@ -117,6 +117,7 @@ public class PreGame extends AAPIableActivity {
      */
     public void start(String data){
         Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
+        mainGame.putExtra("gridMap", gridMap);
 //        connectionListener.stopListening();
         startActivity(mainGame);
     }

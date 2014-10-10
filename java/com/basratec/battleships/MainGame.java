@@ -37,21 +37,25 @@ public class MainGame extends AAPIableActivity {
 
     protected int lastFiredAtCell;
 
+    protected int[] gridMap;
+
     @Override
 	public void onCreate(Bundle savedInstanceState)
     {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_game);
         OnCellClickListener ocl = new OnCellClickListener();
+
+        gridMap = getIntent().getExtras().getIntArray("gridMap");
+
         myGridContainer = (LinearLayout) findViewById(R.id.MyGrid);
-        myGridContainer = Generators.addGridToContainer(5, 5, this, R.dimen.small_cell, R.dimen.small_cell, myGridContainer);
+        myGridContainer = Generators.addGridToContainer(5, 5, this, R.dimen.small_cell, R.dimen.small_cell, myGridContainer, gridMap);
 
         enemyGridContainer = (LinearLayout) findViewById(R.id.EnemyGrid);
         enemyGridContainer = Generators.addClickableGridToContainer(
                 5, 5, this, R.dimen.cell, R.dimen.cell, enemyGridContainer, ocl
         );
         turnNotifier = (TextView)findViewById(R.id.turn_notifier);
-
         connectionListener = ConnectionManager.getListener(this);
 	}
 
@@ -82,20 +86,17 @@ public class MainGame extends AAPIableActivity {
         }).start();
     }
 
-    public void firedAt(String datas)
+    public void firedAt(String data)
     {
-        int data = Integer.parseInt(datas);
-        int cellPos =0;
-        cellPos = data;
+        int cellPos = Integer.parseInt(data);
         try{
-            System.out.println("cell positin: " + cellPos);
             ImageButton cell ;
             int horizontalNumber = (int)(cellPos/5);
             LinearLayout ll1 = (LinearLayout)findViewById(R.id.MyGrid);
             LinearLayout ll2 = (LinearLayout)ll1.getChildAt(horizontalNumber);
             cell = (ImageButton)ll2.getChildAt(cellPos%5);
-            System.out.println("cell : " + cell.getBackground().getAlpha());
-            if(true){
+
+            if(1 == gridMap[cellPos]){ //if we're hit
                 cell.setBackgroundColor(Color.parseColor("#5555FF"));
             }
             else{
