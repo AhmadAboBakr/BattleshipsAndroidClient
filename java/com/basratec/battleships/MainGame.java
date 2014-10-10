@@ -73,10 +73,13 @@ public class MainGame extends AAPIableActivity {
 
     public void fireAt(View view)
     {
-        if(!PLAY_FLAG){ //not my turn
-            return;
-        }
         final String cell = view.getTag().toString();
+        int position = Integer.parseInt(cell);
+
+        if(!PLAY_FLAG || GridMap.STATUS_UNKNOWN != enemyGridMap.getCellStatus(position)){
+            return; //not my turn or cell already shot before
+        }
+
         lastFiredAtCell = Integer.parseInt(cell);
 
         new Thread(new Runnable(){

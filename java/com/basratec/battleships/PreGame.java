@@ -129,7 +129,7 @@ public class PreGame extends AAPIableActivity {
             System.out.println("List is empty, continuing...");
             //send grid to server  (JSONArray) is promising but require Android API 19 or more we need a decision
             try {
-                final String grid = new JSONArray(gridMap).toString();
+                final String grid = new JSONArray(gridMap.gridMap).toString();
                 new Thread(new Runnable(){
                     @Override
                     public void run() {

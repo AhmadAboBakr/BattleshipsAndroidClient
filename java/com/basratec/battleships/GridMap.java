@@ -90,12 +90,11 @@ public class GridMap implements Serializable
      * Returns weather a cell is occupied
      *
      * @param position int
-     * @return int
+     * @return boolean
      */
     public boolean isOccupied(int position)
     {
-        int[] occupiedStatuses = {GridMap.STATUS_OCCUPIED, GridMap.STATUS_HIT};
-        return Arrays.asList(occupiedStatuses).contains(gridMap[position]);
+        return (GridMap.STATUS_OCCUPIED == gridMap[position]) || (GridMap.STATUS_HIT == gridMap[position]);
     }
 
 }
