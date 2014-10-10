@@ -36,6 +36,7 @@ public class ConnectionManager extends Thread {
      * whether or not we are connected to a server
      */
     private int connectionStatus = STATUS_NOT_INITIALIZED;
+
     private boolean activityEnded=false;
     /**
      * Any messages that need to be sent but waiting for server to connect
@@ -75,9 +76,7 @@ public class ConnectionManager extends Thread {
             listener.start();
         }
         else{
-            listener.stopListening();
             listener.setCurrentActivity(activity);
-            listener.start();
         }
         listener.stopListening = false;
         System.out.println("started listening for activity: "+activity.getClass());
@@ -175,7 +174,7 @@ public class ConnectionManager extends Thread {
             InputStream inStream = connection.getInputStream();
             Scanner in = new Scanner(connection.getInputStream());
             System.out.println("stopped listening: "+ stopListening);
-            while(  in.hasNext() && !stopListening ){
+            while( in.hasNext() ){
                 System.out.println("has next and activity not ended in  " + currentActivity.getClass());
                 if(this.stopListening)break;
                 System.out.println("did not stop listening!");

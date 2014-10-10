@@ -26,7 +26,7 @@ import org.json.JSONObject;
 public class PreGame extends AAPIableActivity {
     private ConnectionManager connectionListener;
     private Socket connection;
-    private int[] gridMap = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    private GridMap gridMap = new GridMap();
     private final int NUMBER_OF_SHIPS=6;
     private  boolean listIsEmpty;
     private TextView timer;
@@ -80,7 +80,7 @@ public class PreGame extends AAPIableActivity {
         String cell = view.getTag().toString();
         int x = Integer.parseInt(cell);
         listIsEmpty=true;
-        if (gridMap[x] == 1){
+        if (gridMap.isOccupied(x)){
             System.out.println("Ship already placed!");
             //TODo add code to free a ship
             return;
@@ -89,7 +89,7 @@ public class PreGame extends AAPIableActivity {
         for(int i=0;i<shipsStatus.size();++i){
             if(shipsStatus.elementAt(i).booleanValue()){ // if a ship is still not clicked
                 System.out.println("Ship found!");
-                gridMap[x] = 1;
+                gridMap.setCellStatus(x, GridMap.STATUS_OCCUPIED);
                 ImageButton ship= (ImageButton)shipContainer.getChildAt(i);
                 ship.setAlpha(.5f);
                 shipsStatus.set(i,Boolean.FALSE);

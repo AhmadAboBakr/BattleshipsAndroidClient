@@ -1,9 +1,10 @@
 package com.basratec.battleships;
 
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class GridMap
+public class GridMap implements Serializable
 {
     public static int STATUS_UNKNOWN = 0;
 
@@ -72,6 +73,17 @@ public class GridMap
     public int getCellStatus(int position)
     {
         return gridMap[position];
+    }
+
+    /**
+     * Sets the status of a cell
+     *
+     * @param position int
+     * @param status int
+     */
+    public void setCellStatus(int position, int status)
+    {
+        gridMap[position] = status;
     }
 
     /**

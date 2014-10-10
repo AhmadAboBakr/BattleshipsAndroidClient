@@ -37,7 +37,9 @@ public class MainGame extends AAPIableActivity {
 
     protected int lastFiredAtCell;
 
-    protected int[] gridMap;
+    protected GridMap gridMap;
+
+    protected GridMap enemyGridMap = new GridMap();
 
     @Override
 	public void onCreate(Bundle savedInstanceState)
@@ -46,8 +48,10 @@ public class MainGame extends AAPIableActivity {
 		setContentView(R.layout.activity_main_game);
         OnCellClickListener ocl = new OnCellClickListener();
 
-        gridMap = getIntent().getExtras().getIntArray("gridMap");
-
+        gridMap = (GridMap)getIntent().getSerializableExtra("gridMap");
+        if(null == gridMap){
+            gridMap = new GridMap();
+        }
         myGridContainer = (LinearLayout) findViewById(R.id.MyGrid);
         myGridContainer = Generators.addGridToContainer(5, 5, this, R.dimen.small_cell, R.dimen.small_cell, myGridContainer, gridMap);
 
@@ -89,6 +93,7 @@ public class MainGame extends AAPIableActivity {
     public void firedAt(String data)
     {
         int cellPos = Integer.parseInt(data);
+        gridMap.shoot(cellPos);
         try{
             ImageButton cell ;
             int horizontalNumber = (int)(cellPos/5);
@@ -96,7 +101,7 @@ public class MainGame extends AAPIableActivity {
             LinearLayout ll2 = (LinearLayout)ll1.getChildAt(horizontalNumber);
             cell = (ImageButton)ll2.getChildAt(cellPos%5);
 
-            if(1 == gridMap[cellPos]){ //if we're hit
+            if(gridMap.isOccupied(cellPos)){ //if we're hit
                 cell.setBackgroundColor(Color.parseColor("#5555FF"));
             }
             else{
@@ -114,6 +119,7 @@ public class MainGame extends AAPIableActivity {
         try{
             int cellPosition = lastFiredAtCell;
             boolean hit = Boolean.parseBoolean(data);
+            enemyGridMap.shoot(cellPosition, hit);
             ImageButton cell ;
             int horizontalNumber = (int)(cellPosition/5);
             LinearLayout ll1 = (LinearLayout)findViewById(R.id.EnemyGrid);

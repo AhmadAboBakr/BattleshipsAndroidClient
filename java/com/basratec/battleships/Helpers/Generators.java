@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.basratec.battleships.GridMap;
 import com.basratec.battleships.R;
 
 /**
@@ -35,7 +36,7 @@ public class Generators {
             int cellWidth,
             int cellHeight,
             LinearLayout container,
-            int[] gridMap
+            GridMap gridMap
     ){
         for(int i=0;i<numberOfVerticalCells;++i){
             LinearLayout row= new LinearLayout(context);
@@ -43,7 +44,7 @@ public class Generators {
             for(int j=0;j<numberOfHorizontalCells;++j){
                 ImageButton ship = new ImageButton(context);
                 ship.setTag(i*numberOfHorizontalCells+j);
-                if(1 == gridMap[i*numberOfHorizontalCells+j]){
+                if(gridMap.isOccupied(i*numberOfHorizontalCells+j)){
                     ship.setBackgroundColor(Color.rgb(10, 255, 10));
                 }
                 else{
