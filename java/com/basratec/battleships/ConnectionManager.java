@@ -1,8 +1,5 @@
 package com.basratec.battleships;
 
-import android.content.Intent;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedWriter;
@@ -11,7 +8,6 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.concurrent.Callable;
@@ -81,7 +77,7 @@ public class ConnectionManager extends Thread {
         else{
             listener.stopListening();
             listener.setCurrentActivity(activity);
-            listener.listen();
+            listener.start();
         }
         listener.stopListening = false;
         System.out.println("started listening for activity: "+activity.getClass());
