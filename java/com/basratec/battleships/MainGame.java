@@ -1,6 +1,7 @@
 package com.basratec.battleships;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -33,7 +34,7 @@ public class MainGame extends AAPIableActivity {
 
     protected ConnectionManager connectionListener;
 
-    protected String[] callables = {"firedAt", "playResult", "play"};
+    protected String[] callables = {"firedAt", "playResult", "play", "end"};
 
     protected int lastFiredAtCell;
 
@@ -142,6 +143,19 @@ public class MainGame extends AAPIableActivity {
         enemyGridContainer.setBackgroundColor(Color.parseColor("#CCCCCC"));
         myGridContainer.setBackground(getResources().getDrawable(R.drawable.border));
         turnNotifier.setText("Waiting for other player..");
+    }
+
+    public void end(String data)
+    {
+        boolean won = Boolean.parseBoolean(data);
+        //change all the colors
+
+        //wait for a couple of seconds
+
+        //go to the end activity
+        Intent eG = new Intent(getApplicationContext(),EndGame.class);
+        eG.putExtra("result", won);
+        startActivity(eG);
     }
 
 	public void play(String data)
