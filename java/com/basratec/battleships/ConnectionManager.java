@@ -175,7 +175,7 @@ public class ConnectionManager extends Thread {
             InputStream inStream = connection.getInputStream();
             Scanner in = new Scanner(connection.getInputStream());
             System.out.println("stopped listening: "+ stopListening);
-            while( !stopListening && in.hasNext() ){
+            while(  in.hasNext() && !stopListening ){
                 System.out.println("has next and activity not ended in  " + currentActivity.getClass());
                 if(this.stopListening)break;
                 System.out.println("did not stop listening!");
