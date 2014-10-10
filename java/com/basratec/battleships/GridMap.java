@@ -1,5 +1,7 @@
+package com.basratec.battleships;
 
 
+import java.util.Arrays;
 
 public class GridMap
 {
@@ -21,8 +23,13 @@ public class GridMap
     public void reset()
     {
         for(int i=0 ; i<gridMap.length ; i++){
-            gridMap[i] = 4;
+            gridMap[i] = GridMap.STATUS_NOT_OCCUPIED;
         }
+    }
+
+    public void populate(int[] map)
+    {
+        gridMap = map;
     }
 
     /**
@@ -32,10 +39,10 @@ public class GridMap
      */
     public void shoot(int position)
     {
-        if(3 == gridMap[position]){
+        if(GridMap.STATUS_OCCUPIED == gridMap[position]){
             gridMap[position] = GridMap.STATUS_HIT;
         }
-        else if(4 == gridMap[position]){
+        else if(GridMap.STATUS_NOT_OCCUPIED == gridMap[position]){
             gridMap[position] = GridMap.STATUS_MISS;
         }
     }
@@ -65,6 +72,18 @@ public class GridMap
     public int getCellStatus(int position)
     {
         return gridMap[position];
+    }
+
+    /**
+     * Returns weather a cell is occupied
+     *
+     * @param position int
+     * @return int
+     */
+    public boolean isOccupied(int position)
+    {
+        int[] occupiedStatuses = {GridMap.STATUS_OCCUPIED, GridMap.STATUS_HIT};
+        return Arrays.asList(occupiedStatuses).contains(gridMap[position]);
     }
 
 }
