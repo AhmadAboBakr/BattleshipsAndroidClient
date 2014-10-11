@@ -76,13 +76,16 @@ public class MainGame extends AAPIableActivity {
     {
         final String cell = view.getTag().toString();
         int position = Integer.parseInt(cell);
+        System.out.println("fn: fireAt. position: "+position);
 
         if(!PLAY_FLAG || GridMap.STATUS_UNKNOWN != enemyGridMap.getCellStatus(position)){
+            System.out.println("will not fire, play_flag= "+PLAY_FLAG+" and cell status= "+enemyGridMap.getCellStatus(position));
             return; //not my turn or cell already shot before
         }
 
         lastFiredAtCell = Integer.parseInt(cell);
 
+        System.out.println("finishing fn: fireAt (running a new thread)");
         new Thread(new Runnable(){
             @Override
             public void run() {
@@ -96,6 +99,7 @@ public class MainGame extends AAPIableActivity {
 
     public void firedAt(String data)
     {
+        System.out.println("fn: firedAt");
         int cellPos = Integer.parseInt(data);
         gridMap.shoot(cellPos);
         try{
@@ -106,15 +110,16 @@ public class MainGame extends AAPIableActivity {
             cell = (ImageButton)ll2.getChildAt(cellPos%5);
 
             if(gridMap.isOccupied(cellPos)){ //if we're hit
-                cell.setBackgroundColor(Color.parseColor("#5555FF"));
+                cell.setBackgroundResource(R.drawable.kill);
             }
             else{
-                cell.setBackgroundColor(Color.parseColor("#FFFF55"));
+                cell.setBackgroundResource(R.drawable.miss);
             }
         }
         catch (Exception e){
             e.printStackTrace();
         }
+        System.out.println("finished fn: firedAt");
     }
 
     public void playResult(String data)
@@ -131,10 +136,10 @@ public class MainGame extends AAPIableActivity {
             cell = (ImageButton)ll2.getChildAt(cellPosition%5);
             System.out.println(cell.getClass());
             if(hit){
-                cell.setBackgroundColor(Color.parseColor("#5555FF"));
+                cell.setBackgroundResource(R.drawable.broken);
             }
             else{
-                cell.setBackgroundColor(Color.parseColor("#FFFF55"));
+                cell.setBackgroundResource(R.drawable.miss_sea);
             }
         }
         catch (Exception e){
@@ -143,6 +148,7 @@ public class MainGame extends AAPIableActivity {
         enemyGridContainer.setBackgroundColor(Color.parseColor("#CCCCCC"));
         myGridContainer.setBackground(getResources().getDrawable(R.drawable.border));
         turnNotifier.setText("Waiting for other player..");
+        System.out.println("finished fn: playResult");
     }
 
     public void end(String data)
@@ -160,9 +166,11 @@ public class MainGame extends AAPIableActivity {
 
 	public void play(String data)
     {
+        System.out.println("started fn: play");
 		PLAY_FLAG = true;
         enemyGridContainer.setBackground(getResources().getDrawable(R.drawable.enemy_border));
         myGridContainer.setBackgroundColor(Color.parseColor("#CCCCCC"));
         turnNotifier.setText("Your Turn!");
+        System.out.println("finished fn: play");
 	}
 }

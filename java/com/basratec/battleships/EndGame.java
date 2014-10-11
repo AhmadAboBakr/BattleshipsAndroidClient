@@ -16,7 +16,7 @@ public class EndGame extends AAPIableActivity {
      * caching for use in embedded classes
      */
     private EndGame that = this;
-    private ConnectionManager connectionListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -28,9 +28,6 @@ public class EndGame extends AAPIableActivity {
         Button exit = (Button) findViewById(R.id.exit);
         TextView result = (TextView) findViewById(R.id.result);
         result.setText(won?"You Win!":"You Lose!");
-
-        //start a connection manager to listen to the server
-        connectionListener = ConnectionManager.getListener(that);
 
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

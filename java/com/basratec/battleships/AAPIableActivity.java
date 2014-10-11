@@ -29,6 +29,7 @@ public abstract class AAPIableActivity extends Activity implements IAPIable {
             try{
                 final Class[] cArg = new Class[1];
                 cArg[0] = String.class;
+                System.out.println("will try to run in UI thread, in class: "+that.getClass());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

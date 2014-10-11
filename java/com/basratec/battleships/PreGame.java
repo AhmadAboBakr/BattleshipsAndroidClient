@@ -94,7 +94,7 @@ public class PreGame extends AAPIableActivity {
                 ship.setAlpha(.5f);
                 shipsStatus.set(i,Boolean.FALSE);
                 imgView.setImageDrawable(getResources().getDrawable(
-                        R.drawable.ship));
+                        R.drawable.intact));
                 listIsEmpty=false;
                 System.out.println("breaking...");
                 break;

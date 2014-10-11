@@ -45,7 +45,7 @@ public class Generators {
                 ImageButton ship = new ImageButton(context);
                 ship.setTag(i*numberOfHorizontalCells+j);
                 if(gridMap.isOccupied(i*numberOfHorizontalCells+j)){
-                    ship.setBackgroundColor(Color.rgb(10, 255, 10));
+                    ship.setBackgroundResource(R.drawable.intact);
                 }
                 else{
                     ship.setBackgroundColor(Color.rgb(255, 255, 255));
