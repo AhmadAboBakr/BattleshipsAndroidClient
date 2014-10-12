@@ -15,13 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.basratec.battleships.Helpers.TimeHelper;
+import com.basratec.battleships.Managers.ConnectionManager;
+import com.basratec.battleships.Managers.ConnectionManagerHFactory;
 import com.basratec.battleships.Managers.ServerConnectionManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 public class PreGame extends AAPIableActivity {
-    private ServerConnectionManager connectionListener;
+    private ConnectionManager connectionManager;
     private Socket connection;
     private int[] gridMap = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private final int NUMBER_OF_SHIPS=6;
@@ -52,7 +54,7 @@ public class PreGame extends AAPIableActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        connectionListener = ServerConnectionManager.startListning(that);
+        connectionManager = ConnectionManagerHFactory.currentGame(this);
         setContentView(R.layout.activity_pre_game);
         timer = (TextView)findViewById(R.id.timer);
         shipContainer = (LinearLayout) findViewById(R.id.shipContainer);
@@ -130,9 +132,7 @@ public class PreGame extends AAPIableActivity {
                 new Thread(new Runnable(){
                     @Override
                     public void run() {
-                        ServerConnectionManager manager = ServerConnectionManager.getSender(that);
-                        manager.init();
-                        manager.send("{\"event\":\"ready\",\"grid\":"+grid+"}");
+                        connectionManager.send("{\"event\":\"ready\",\"grid\":"+grid+"}");
                     }
                 }).start();
 

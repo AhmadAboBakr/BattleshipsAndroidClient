@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.basratec.battleships.Managers.ConnectionManagerHFactory;
 import com.basratec.battleships.Managers.ServerConnectionManager;
 
 
@@ -36,7 +37,6 @@ public class OpeningScreen extends AAPIableActivity {
         buttonsContainer.addView(testMainGameUI);
 
         //start a connection manager to listen to the server
-        connectionListener = ServerConnectionManager.startListning(that);
 //        new Thread(new Runnable(){
 //			@Override
 //			public void run() {
@@ -61,7 +61,6 @@ public class OpeningScreen extends AAPIableActivity {
             @Override
             public void onClick(View view) {
                 Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
-                connectionListener.stopListening();
                 startActivity(mainGame);
             }
         });
@@ -84,9 +83,10 @@ public class OpeningScreen extends AAPIableActivity {
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
     private void startButtonHandler(){
+
+        System.out.println("Starting Connect to server activity");
+        ConnectionManagerHFactory.newGame(that,ConnectionManagerHFactory.SERVER);
         Intent serverConnector = new Intent(this,ConnectToServer.class);
-//        connectionListener.stopListening();
         startActivity(serverConnector);
-//        connectionListener.start();
     }
 }

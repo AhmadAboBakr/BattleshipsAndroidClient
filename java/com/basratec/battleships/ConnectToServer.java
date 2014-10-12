@@ -1,5 +1,7 @@
 package com.basratec.battleships;
 
+import com.basratec.battleships.Managers.ConnectionManager;
+import com.basratec.battleships.Managers.ConnectionManagerHFactory;
 import com.basratec.battleships.Managers.ServerConnectionManager;
 import com.basratec.battleships.util.SystemUiHider;
 
@@ -34,13 +36,13 @@ public class ConnectToServer extends AAPIableActivity {
      * Caching self reference for embedded functions and classes to use
      */
     private ConnectToServer that = this;
-    private ServerConnectionManager connectionListener;
+    private ConnectionManager connectionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        
+        connectionManager = ConnectionManagerHFactory.currentGame(this);
         setContentView(R.layout.activity_connecting_to_server);
         status = (TextView) findViewById(R.id.fullscreen_content);
         Button cancel = (Button)findViewById(R.id.cancel_button);
@@ -60,15 +62,13 @@ public class ConnectToServer extends AAPIableActivity {
         final View contentView = findViewById(R.id.fullscreen_content);
         mSystemUiHider = SystemUiHider.getInstance(this, contentView,0);
         mSystemUiHider.setup();
-        connectionListener = ServerConnectionManager.startListning(that);
 
         //connect to the server, show appropriate messages when connection fails or succeeds,
         //and then send the "start" event
         new Thread(new Runnable(){
             @Override
             public void run() {
-                ServerConnectionManager manager = ServerConnectionManager.getSender(that);
-                manager.init(
+                connectionManager.init(
                         new Callable() { //the success callback
                             @Override
                             public Object call() throws Exception {
@@ -95,7 +95,7 @@ public class ConnectToServer extends AAPIableActivity {
                         }
                 );
                 System.out.println("sending: {\"event\":\"start\"}");
-                manager.send("{\"event\":\"start\"}"); //ask the server to start a game for us
+                connectionManager.send("{\"event\":\"start\"}"); //ask the server to start a game for us
             }
 
         }).start();
@@ -106,7 +106,6 @@ public class ConnectToServer extends AAPIableActivity {
      */
     public void start(String data){
         Intent preGame = new Intent(getApplicationContext(),PreGame.class);
-//        connectionListener.stopListening();
         startActivity(preGame);
     }
 

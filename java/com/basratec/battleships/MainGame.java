@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.basratec.battleships.Helpers.Generators;
+import com.basratec.battleships.Managers.ConnectionManager;
 import com.basratec.battleships.Managers.ServerConnectionManager;
 
 /**
@@ -27,7 +28,8 @@ public class MainGame extends AAPIableActivity {
 
     protected MainGame mainGame = this;
 
-    protected ServerConnectionManager connectionListener;
+    private ConnectionManager connectionManager;
+
 
     protected String[] callables = {"firedAt", "playResult", "play"};
 
@@ -39,6 +41,7 @@ public class MainGame extends AAPIableActivity {
 	public void onCreate(Bundle savedInstanceState)
     {
 		super.onCreate(savedInstanceState);
+        connectionManager.setCurrentActivity(this);
 		setContentView(R.layout.activity_main_game);
         OnCellClickListener ocl = new OnCellClickListener();
 
@@ -52,7 +55,7 @@ public class MainGame extends AAPIableActivity {
                 5, 5, this, R.dimen.cell, R.dimen.cell, enemyGridContainer, ocl
         );
         turnNotifier = (TextView)findViewById(R.id.turn_notifier);
-        connectionListener = ServerConnectionManager.startListning(this);
+
 	}
 
     public class OnCellClickListener implements View.OnClickListener
@@ -74,9 +77,7 @@ public class MainGame extends AAPIableActivity {
         new Thread(new Runnable(){
             @Override
             public void run() {
-                ServerConnectionManager manager = ServerConnectionManager.getSender(mainGame);
-                manager.init();
-                manager.send("{\"event\":\"fireAt\",\"position\":"+cell+"}");
+                connectionManager.send("{\"event\":\"fireAt\",\"position\":"+cell+"}");
                 PLAY_FLAG = false;
             }
         }).start();

@@ -33,9 +33,6 @@ public class ServerConnectionManager extends ConnectionManager {
      */
     private SocketSinglton connection;
 
-    private static ServerConnectionManager listener;
-
-    private static ServerConnectionManager sender;
     /**
      * whether or not we are connected to a server
      */
@@ -66,26 +63,18 @@ public class ServerConnectionManager extends ConnectionManager {
 
     protected ServerConnectionManager()
     {
-        super();
+        //super();
+
     }
 
-    public  void startListning(AAPIableActivity activity)
+    @Override
+    public void startListning(AAPIableActivity activity)
     {
-            listener.setCurrentActivity(activity);
-            listener.start();
+            this.setCurrentActivity(activity);
+            this.start();
         System.out.println("started listening for activity: "+activity.getClass());
     }
 
-    public static ServerConnectionManager getSender(AAPIableActivity activity)
-    {
-        if(null == sender){
-          //  sender = new ServerConnectionManager(activity);
-        }
-        else{
-            sender.setCurrentActivity(activity);
-        }
-        return sender;
-    }
 
     public void setCurrentActivity(AAPIableActivity activity)
     {
@@ -119,7 +108,7 @@ public class ServerConnectionManager extends ConnectionManager {
      * @param successCallBack a callable that will be called upon success
      * @param failureCallBack a callable that will be called on failure
      */
-    private void init(Callable successCallBack, Callable failureCallBack)
+    public void init(Callable successCallBack, Callable failureCallBack)
     {
         connectionStatus = STATUS_TRYING;
         while(true) {
@@ -164,7 +153,6 @@ public class ServerConnectionManager extends ConnectionManager {
     protected void listen(){
         try{
             System.out.println("started listening in "+currentActivity.getClass());
-            InputStream inStream = connection.getInputStream();
             Scanner in = new Scanner(connection.getInputStream());
             System.out.println("stopped listening: "+ stopListening);
             while(  in.hasNext() && !stopListening ){
@@ -209,9 +197,5 @@ public class ServerConnectionManager extends ConnectionManager {
         }
     }
 
-    private void stopListening(){
-        System.out.println("will stop listening in "+ currentActivity.getClass());
-        stopListening = true;
-    }
 
 }

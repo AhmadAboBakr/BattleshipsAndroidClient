@@ -7,6 +7,7 @@ import com.basratec.battleships.SocketSinglton;
 
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.concurrent.Callable;
 
 /**
  * Created by bakr on 10/10/14.
@@ -24,6 +25,8 @@ public abstract class ConnectionManager extends Thread {
     public abstract void startListning(AAPIableActivity activity);
     protected abstract void listen();
     public abstract void send(String Message);
+    public abstract void init(Callable successCallBack, Callable failureCallBack);
+
 
 
 }
