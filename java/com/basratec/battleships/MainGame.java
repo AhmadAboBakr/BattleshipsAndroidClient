@@ -1,6 +1,5 @@
 package com.basratec.battleships;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,10 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.basratec.battleships.Helpers.Generators;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.basratec.battleships.Managers.ConnectionManager;
+import com.basratec.battleships.Managers.ConnectionManagerHFactory;
 
 /**
  * Created by nookz on 9/27/2014.
@@ -32,7 +29,7 @@ public class MainGame extends AAPIableActivity {
 
     protected MainGame mainGame = this;
 
-    protected ConnectionManager connectionListener;
+    protected ConnectionManager connectionManager;
 
     protected String[] callables = {"firedAt", "playResult", "play", "end"};
 
@@ -46,7 +43,9 @@ public class MainGame extends AAPIableActivity {
 	public void onCreate(Bundle savedInstanceState)
     {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main_game);
+        connectionManager = ConnectionManagerHFactory.currentGame(this);
+
+        setContentView(R.layout.activity_main_game);
         OnCellClickListener ocl = new OnCellClickListener();
 
         gridMap = (GridMap)getIntent().getSerializableExtra("gridMap");
@@ -61,7 +60,6 @@ public class MainGame extends AAPIableActivity {
                 5, 5, this, R.dimen.cell, R.dimen.cell, enemyGridContainer, ocl
         );
         turnNotifier = (TextView)findViewById(R.id.turn_notifier);
-        connectionListener = ConnectionManager.getListener(this);
 	}
 
     public class OnCellClickListener implements View.OnClickListener
@@ -89,9 +87,7 @@ public class MainGame extends AAPIableActivity {
         new Thread(new Runnable(){
             @Override
             public void run() {
-                ConnectionManager manager = ConnectionManager.getSender(mainGame);
-                manager.init();
-                manager.send("{\"event\":\"fireAt\",\"position\":"+cell+"}");
+                connectionManager.send("{\"event\":\"fireAt\",\"position\":"+cell+"}");
                 PLAY_FLAG = false;
             }
         }).start();
