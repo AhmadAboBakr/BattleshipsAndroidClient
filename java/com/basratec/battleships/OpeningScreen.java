@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.basratec.battleships.Managers.ConnectionManagerHFactory;
+import com.basratec.battleships.Managers.ServerConnectionManager;
+
 
 public class OpeningScreen extends AAPIableActivity {
 
@@ -15,7 +18,7 @@ public class OpeningScreen extends AAPIableActivity {
      * caching for use in embedded classes
      */
     private OpeningScreen that = this;
-    private ConnectionManager connectionListener;
+    private ServerConnectionManager connectionListener;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -34,12 +37,11 @@ public class OpeningScreen extends AAPIableActivity {
         buttonsContainer.addView(testMainGameUI);
 
         //start a connection manager to listen to the server
-        connectionListener = ConnectionManager.getListener(that);
 //        new Thread(new Runnable(){
 //			@Override
 //			public void run() {
 //                //initialize a new manager to send an event to the server
-//                ConnectionManager manager = new ConnectionManager(that);
+//                ServerConnectionManager manager = new ServerConnectionManager(that);
 //                manager.init();
 //                manager.send("{\"event\":\"OS\",\"data\":\"nothing\"}");
 //            }
@@ -59,7 +61,6 @@ public class OpeningScreen extends AAPIableActivity {
             @Override
             public void onClick(View view) {
                 Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
-                connectionListener.stopListening();
                 startActivity(mainGame);
             }
         });
@@ -82,9 +83,10 @@ public class OpeningScreen extends AAPIableActivity {
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
     private void startButtonHandler(){
+
+        System.out.println("Starting Connect to server activity");
+        ConnectionManagerHFactory.newGame(that,ConnectionManagerHFactory.SERVER);
         Intent serverConnector = new Intent(this,ConnectToServer.class);
-//        connectionListener.stopListening();
         startActivity(serverConnector);
-//        connectionListener.start();
     }
 }
