@@ -1,6 +1,8 @@
 package com.basratec.battleships;
 
 import java.net.Socket;
+import java.util.List;
+import java.util.Stack;
 import java.util.Vector;
 
 import android.annotation.TargetApi;
@@ -17,7 +19,8 @@ import android.widget.Toast;
 import com.basratec.battleships.Helpers.TimeHelper;
 import com.basratec.battleships.Managers.ConnectionManager;
 import com.basratec.battleships.Managers.ConnectionManagerHFactory;
-import com.basratec.battleships.Managers.ServerConnectionManager;
+import com.basratec.battleships.Ships.BaseShip;
+import com.basratec.battleships.Ships.TinyShip;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,25 +30,22 @@ public class PreGame extends AAPIableActivity {
     private Socket connection;
     private GridMap gridMap = new GridMap();
     private final int NUMBER_OF_SHIPS=6;
-    private  boolean listIsEmpty;
     private TextView timer;
-    private Vector<Boolean> shipsStatus;
+    private Stack<BaseShip> startingShips = new Stack<BaseShip>();
+    private boolean[][] availableShips = new boolean[4][10];
     private LinearLayout shipContainer;
     private PreGame that = this;
 
 
     private void initializeShips(){
-        shipsStatus = new Vector<Boolean>(NUMBER_OF_SHIPS);
-
         for(int i =0;i<NUMBER_OF_SHIPS;++i){
+            startingShips.push(new TinyShip());
             ImageButton ship = new ImageButton(getApplicationContext());
             shipContainer.addView(ship);
             ship =(ImageButton) shipContainer.getChildAt(i);
             ship.setLayoutParams(new LinearLayout.LayoutParams((int)getResources().getDimension(R.dimen.ship),(int)getResources().getDimension(R.dimen.ship)));
             ((LinearLayout.LayoutParams)ship.getLayoutParams()).setMargins(10, 10, 10, 10);
             ship.setBackgroundResource(R.drawable.ship);
-
-            shipsStatus.add(new Boolean("true"));
         }
         shipContainer.invalidate();
     }
@@ -77,37 +77,19 @@ public class PreGame extends AAPIableActivity {
     public void placeShip(View view) {
         ImageButton imgView = (ImageButton) view;
         String cell = view.getTag().toString();
-        int x = Integer.parseInt(cell);
-        listIsEmpty=true;
-        if (gridMap.isOccupied(x)){
-            System.out.println("Ship already placed!");
+        int position = Integer.parseInt(cell);
+        if (gridMap.isOccupied(position)){
             //TODo add code to free a ship
             return;
         }
-        System.out.println("looping something...");
-        for(int i=0;i<shipsStatus.size();++i){
-            if(shipsStatus.elementAt(i).booleanValue()){ // if a ship is still not clicked
-                System.out.println("Ship found!");
-                gridMap.setCellStatus(x, GridMap.STATUS_OCCUPIED);
-                ImageButton ship= (ImageButton)shipContainer.getChildAt(i);
-                ship.setAlpha(.5f);
-                shipsStatus.set(i,Boolean.FALSE);
-                imgView.setImageDrawable(getResources().getDrawable(
-                        R.drawable.intact));
-                listIsEmpty=false;
-                System.out.println("breaking...");
-                break;
-
-            }
+        if(startingShips.isEmpty()){
+            return;
         }
-        if(listIsEmpty){
-            System.out.println("list is empty!");
-            //toast
-        }
-        else{
-            System.out.println("list is not empty!");
-        }
-
+        BaseShip ship = startingShips.pop();
+        ship.occupiedTiles.push(position);
+        gridMap.placeShip(ship);
+        imgView.setAlpha(.5f);
+        imgView.setImageDrawable(getResources().getDrawable(R.drawable.intact));
     }
 
 
@@ -117,15 +99,13 @@ public class PreGame extends AAPIableActivity {
     public void start(String data){
         Intent mainGame = new Intent(getApplicationContext(),MainGame.class);
         mainGame.putExtra("gridMap", gridMap);
-//        connectionListener.stopListening();
         startActivity(mainGame);
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void eshtaHandler(View view){
         System.out.println("Handling eshta!");
-        if(listIsEmpty){
-            System.out.println("List is empty, continuing...");
+        if(startingShips.isEmpty()){
             //send grid to server  (JSONArray) is promising but require Android API 19 or more we need a decision
             try {
                 final String grid = new JSONArray(gridMap.gridMap).toString();

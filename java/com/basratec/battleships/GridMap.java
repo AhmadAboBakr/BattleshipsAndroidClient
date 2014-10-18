@@ -1,8 +1,17 @@
 package com.basratec.battleships;
 
 
+import android.util.SparseArray;
+
+import com.basratec.battleships.CustomTypes.SerializableSparseArray;
+import com.basratec.battleships.Ships.BaseShip;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GridMap implements Serializable
 {
@@ -18,6 +27,13 @@ public class GridMap implements Serializable
 
     public int[] gridMap = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
+    public List<BaseShip> ships = new ArrayList<BaseShip>();
+
+    /**
+     * An inverted index of all the ships' positions
+     */
+    public SerializableSparseArray<BaseShip> shipPositions = new SerializableSparseArray<BaseShip>();
+
     /**
      * Resets all the grid cells to unoccupied
      */
@@ -28,9 +44,25 @@ public class GridMap implements Serializable
         }
     }
 
-    public void populate(int[] map)
+    public void populate(BaseShip[] ships)
     {
-        gridMap = map;
+        for(BaseShip ship : ships ) {
+            this.ships.add(ship);
+            for(int tile : ship.occupiedTiles){
+                gridMap[tile] = GridMap.STATUS_OCCUPIED;
+                shipPositions.put(tile, ship);
+            }
+        }
+    }
+
+    public void placeShip(BaseShip ship)
+    {
+        this.ships.add(ship);
+        while(!ship.occupiedTiles.isEmpty()){
+            int tile = ship.occupiedTiles.pop();
+            gridMap[tile] = GridMap.STATUS_OCCUPIED;
+            shipPositions.put(tile, ship);
+        }
     }
 
     /**
@@ -38,29 +70,44 @@ public class GridMap implements Serializable
      *
      * @param position int
      */
-    public void shoot(int position)
+    public BaseShip shoot(int position)
     {
         if(GridMap.STATUS_OCCUPIED == gridMap[position]){
             gridMap[position] = GridMap.STATUS_HIT;
+            //find the hit ship
+            BaseShip hitShip = shipPositions.get(position);
+            //update its health = its health - 100 / its size
+//            hitShip.health -= 100/hitShip.size;
+            //return the ship
+            return hitShip;
         }
         else if(GridMap.STATUS_NOT_OCCUPIED == gridMap[position]){
             gridMap[position] = GridMap.STATUS_MISS;
         }
+        return null;
     }
 
     /**
      * Shoot a cell in an enemy grid. You should provide the cell position and weather or not it was hit
      *
+     * todo remove duplicate code from one of the shoot functions
      * @param position int
      * @param result boolean
      */
-    public void shoot(int position, boolean result)
+    public BaseShip shoot(int position, boolean result)
     {
         if(result){
             gridMap[position] = GridMap.STATUS_HIT;
+            //find the hit ship
+            BaseShip hitShip = shipPositions.get(position);
+            //update its health = its health - 100 / its size
+//            hitShip.health -= 100/hitShip.size;
+            //return the ship
+            return hitShip;
         }
         else{
             gridMap[position] = GridMap.STATUS_MISS;
+            return null;
         }
     }
 
