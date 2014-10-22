@@ -17,10 +17,11 @@
         >
         <LinearLayout
             android:id ="@+id/myGridContainer"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginLeft="20dp">
+            android:layout_weight="1"
+            >
 
 
             <TextView
@@ -28,12 +29,13 @@
                 android:layout_height="wrap_content"
                 android:text="My Grid"
                 android:gravity="center"
-                android:textColor="#333" />
+                android:textColor="#333"
+                />
 
             <LinearLayout
                 android:id="@+id/MyGrid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:orientation="vertical"
                 android:padding="2dp"
             >
@@ -43,10 +45,11 @@
         <LinearLayout
             android:id ="@+id/turn"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:orientation="vertical"
             android:layout_marginLeft="20dp"
-            android:weightSum="1">
+            android:layout_weight="1"
+            >
 
             <TextView
                 android:layout_width="fill_parent"
@@ -78,19 +81,23 @@
 
             <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:text="Enemy Grid"
                 android:gravity="center"
-                android:textColor="#333" />
+                android:textColor="#333"
+                android:layout_weight="0.9"
+                />
 
             <!-- the one with the border-->
             <LinearLayout
                 android:id="@+id/EnemyGrid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:orientation="vertical"
                 android:padding="2dp"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_weight="0.1"
+                >
 
             </LinearLayout>
         </LinearLayout>

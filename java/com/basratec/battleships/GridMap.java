@@ -25,22 +25,38 @@ public class GridMap implements Serializable
 
     public static int STATUS_NOT_OCCUPIED = 4;
 
-    public int[] gridMap = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    public int[] gridMap;
 
     public List<BaseShip> ships = new ArrayList<BaseShip>();
+
+    /**
+     * Number of horizontal cells in grid
+     */
+    public static int NUMBER_OF_HORIZONTAL_CELLS = 10;
+
+    /**
+     * Number of vertical cells in grid
+     */
+    public static int NUMBER_OF_VERTICAL_CELLS = 10;
 
     /**
      * An inverted index of all the ships' positions
      */
     public SerializableSparseArray<BaseShip> shipPositions = new SerializableSparseArray<BaseShip>();
 
+    public GridMap()
+    {
+        this.gridMap = new int[GridMap.NUMBER_OF_HORIZONTAL_CELLS*GridMap.NUMBER_OF_VERTICAL_CELLS];
+        reset();
+    }
+
     /**
-     * Resets all the grid cells to unoccupied
+     * Resets all the grid cells to unknown
      */
     public void reset()
     {
         for(int i=0 ; i<gridMap.length ; i++){
-            gridMap[i] = GridMap.STATUS_NOT_OCCUPIED;
+            gridMap[i] = GridMap.STATUS_UNKNOWN;
         }
     }
 

@@ -53,11 +53,21 @@ public class MainGame extends AAPIableActivity {
             gridMap = new GridMap();
         }
         myGridContainer = (LinearLayout) findViewById(R.id.MyGrid);
-        myGridContainer = Generators.addGridToContainer(5, 5, this, R.dimen.small_cell, R.dimen.small_cell, myGridContainer, gridMap);
+        myGridContainer = Generators.addGridToContainer(
+                GridMap.NUMBER_OF_HORIZONTAL_CELLS,
+                GridMap.NUMBER_OF_VERTICAL_CELLS,
+                this,
+                myGridContainer,
+                gridMap
+        );
 
         enemyGridContainer = (LinearLayout) findViewById(R.id.EnemyGrid);
         enemyGridContainer = Generators.addClickableGridToContainer(
-                5, 5, this, R.dimen.cell, R.dimen.cell, enemyGridContainer, ocl
+                GridMap.NUMBER_OF_HORIZONTAL_CELLS,
+                GridMap.NUMBER_OF_VERTICAL_CELLS,
+                this,
+                enemyGridContainer,
+                ocl
         );
         turnNotifier = (TextView)findViewById(R.id.turn_notifier);
 	}
@@ -100,10 +110,10 @@ public class MainGame extends AAPIableActivity {
         gridMap.shoot(cellPos);
         try{
             ImageButton cell ;
-            int horizontalNumber = (int)(cellPos/5);
+            int horizontalNumber = (cellPos/GridMap.NUMBER_OF_HORIZONTAL_CELLS);
             LinearLayout ll1 = (LinearLayout)findViewById(R.id.MyGrid);
             LinearLayout ll2 = (LinearLayout)ll1.getChildAt(horizontalNumber);
-            cell = (ImageButton)ll2.getChildAt(cellPos%5);
+            cell = (ImageButton)ll2.getChildAt(cellPos%GridMap.NUMBER_OF_HORIZONTAL_CELLS);
 
             if(gridMap.isOccupied(cellPos)){ //if we're hit
                 cell.setBackgroundResource(R.drawable.kill);
@@ -126,10 +136,10 @@ public class MainGame extends AAPIableActivity {
             boolean hit = Boolean.parseBoolean(data);
             enemyGridMap.shoot(cellPosition, hit);
             ImageButton cell ;
-            int horizontalNumber = (int)(cellPosition/5);
+            int horizontalNumber = (cellPosition/GridMap.NUMBER_OF_HORIZONTAL_CELLS);
             LinearLayout ll1 = (LinearLayout)findViewById(R.id.EnemyGrid);
             LinearLayout ll2 = (LinearLayout)ll1.getChildAt(horizontalNumber);
-            cell = (ImageButton)ll2.getChildAt(cellPosition%5);
+            cell = (ImageButton)ll2.getChildAt(cellPosition%GridMap.NUMBER_OF_HORIZONTAL_CELLS);
             System.out.println(cell.getClass());
             if(hit){
                 cell.setBackgroundResource(R.drawable.broken);

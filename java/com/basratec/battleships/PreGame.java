@@ -7,15 +7,18 @@ import java.util.Vector;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.basratec.battleships.Helpers.Generators;
 import com.basratec.battleships.Helpers.TimeHelper;
 import com.basratec.battleships.Managers.ConnectionManager;
 import com.basratec.battleships.Managers.ConnectionManagerHFactory;
@@ -58,6 +61,17 @@ public class PreGame extends AAPIableActivity {
         setContentView(R.layout.activity_pre_game);
         timer = (TextView)findViewById(R.id.timer);
         shipContainer = (LinearLayout) findViewById(R.id.shipContainer);
+        OnCellClickListener ocl = new OnCellClickListener();
+
+        LinearLayout gridContainer = (LinearLayout) findViewById(R.id.theGrid);
+        gridContainer = Generators.addClickableGridToContainer(
+                GridMap.NUMBER_OF_HORIZONTAL_CELLS,
+                GridMap.NUMBER_OF_VERTICAL_CELLS,
+                this,
+                gridContainer,
+                ocl
+        );
+
         initializeShips();
         try {
             TimeHelper.setTimeOut(1000, that, this.getClass().getMethod("updateTimer", null));
@@ -66,30 +80,35 @@ public class PreGame extends AAPIableActivity {
         }
     }
 
+    public class OnCellClickListener implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View view) {
+            ImageButton imgView = (ImageButton) view;
+            String cell = view.getTag().toString();
+            int position = Integer.parseInt(cell);
+            if (gridMap.isOccupied(position)){
+                //TODo add code to free a ship
+                return;
+            }
+            if(startingShips.isEmpty()){
+                return;
+            }
+            BaseShip ship = startingShips.pop();
+            ship.occupiedTiles.push(position);
+            gridMap.placeShip(ship);
+            imgView.setAlpha(.5f);
+//            imgView.setBackgroundColor(Color.parseColor("#FF5500"));
+            imgView.setBackgroundResource(R.drawable.intact);
+            imgView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu., menu);
         return true;
-    }
-
-    // usr clicked color
-    public void placeShip(View view) {
-        ImageButton imgView = (ImageButton) view;
-        String cell = view.getTag().toString();
-        int position = Integer.parseInt(cell);
-        if (gridMap.isOccupied(position)){
-            //TODo add code to free a ship
-            return;
-        }
-        if(startingShips.isEmpty()){
-            return;
-        }
-        BaseShip ship = startingShips.pop();
-        ship.occupiedTiles.push(position);
-        gridMap.placeShip(ship);
-        imgView.setAlpha(.5f);
-        imgView.setImageDrawable(getResources().getDrawable(R.drawable.intact));
     }
 
 
