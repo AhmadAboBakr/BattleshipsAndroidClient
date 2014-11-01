@@ -25,7 +25,7 @@ public class GridMap implements Serializable
 
     public static int STATUS_NOT_OCCUPIED = 4;
 
-    public int[] gridMap;
+    public int[][] gridMap;
 
     public List<BaseShip> ships = new ArrayList<BaseShip>();
 
@@ -41,12 +41,13 @@ public class GridMap implements Serializable
 
     /**
      * An inverted index of all the ships' positions
+     * find a way to convert it to a 2D array
      */
     public SerializableSparseArray<BaseShip> shipPositions = new SerializableSparseArray<BaseShip>();
 
     public GridMap()
     {
-        this.gridMap = new int[GridMap.NUMBER_OF_HORIZONTAL_CELLS*GridMap.NUMBER_OF_VERTICAL_CELLS];
+        this.gridMap = new int[GridMap.NUMBER_OF_HORIZONTAL_CELLS][GridMap.NUMBER_OF_VERTICAL_CELLS];
         reset();
     }
 
@@ -55,30 +56,34 @@ public class GridMap implements Serializable
      */
     public void reset()
     {
-        for(int i=0 ; i<gridMap.length ; i++){
-            gridMap[i] = GridMap.STATUS_UNKNOWN;
-        }
-    }
-
-    public void populate(BaseShip[] ships)
-    {
-        for(BaseShip ship : ships ) {
-            this.ships.add(ship);
-            for(int tile : ship.occupiedTiles){
-                gridMap[tile] = GridMap.STATUS_OCCUPIED;
-                shipPositions.put(tile, ship);
+        for(int i = 0 ; i<gridMap.length ; i++){
+            for(int j = 0 ; j<gridMap[i].length ; j++) {
+                gridMap[i][j] = GridMap.STATUS_UNKNOWN;
             }
         }
     }
 
-    public void placeShip(BaseShip ship)
+    public boolean placeShip(BaseShip ship,int startingPosition)
     {
+        //todo FixLater
+        //todo question the logic!
+        int y = startingPosition/NUMBER_OF_HORIZONTAL_CELLS;
+        int x = startingPosition%NUMBER_OF_VERTICAL_CELLS;
+
         this.ships.add(ship);
-        while(!ship.occupiedTiles.isEmpty()){
-            int tile = ship.occupiedTiles.pop();
-            gridMap[tile] = GridMap.STATUS_OCCUPIED;
-            shipPositions.put(tile, ship);
+        for(int i = 0;i<ship.width;++i){
+            for(int j = 0;j<ship.height;++j){
+                if(gridMap[i][j]==STATUS_OCCUPIED)return false;
+            }
         }
+        for(int i = 0;i<ship.width;++i){
+            for(int j = 0;j<ship.height;++j){
+                gridMap[x][y] = GridMap.STATUS_OCCUPIED;
+                shipPositions.put(startingPosition, ship);
+
+            }
+        }
+        return true;
     }
 
     /**
@@ -86,6 +91,7 @@ public class GridMap implements Serializable
      *
      * @param position int
      */
+    //TODO Fix this shit
     public BaseShip shoot(int position)
     {
         if(GridMap.STATUS_OCCUPIED == gridMap[position]){
@@ -110,6 +116,8 @@ public class GridMap implements Serializable
      * @param position int
      * @param result boolean
      */
+
+    //TODO Fix this shit
     public BaseShip shoot(int position, boolean result)
     {
         if(result){

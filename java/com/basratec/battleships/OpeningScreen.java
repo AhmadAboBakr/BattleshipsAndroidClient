@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.basratec.battleships.Managers.ConnectionManagerHFactory;
 import com.basratec.battleships.Managers.ServerConnectionManager;
+import com.basratec.battleships.Activities.MainGame;
 
 
 public class OpeningScreen extends AAPIableActivity {

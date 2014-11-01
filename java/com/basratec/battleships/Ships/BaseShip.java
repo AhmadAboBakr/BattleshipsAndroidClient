@@ -11,13 +11,20 @@ import java.util.Stack;
  */
 abstract public class BaseShip implements Serializable
 {
+    public final int HORIZONTAL = 0;
+    public final int VERTICAL = 1;
     /**
      * The number of tiles the ship will occupy
      */
-    public int size;
-
-    public Stack<Integer> occupiedTiles = new Stack<Integer>();
-
+    public int width, height;
+    public int oreantation;
     public int health = 100;
 
+    public void flip()
+    {
+        int temp = width;
+        width = height;
+        height = temp;
+
+    }
 }

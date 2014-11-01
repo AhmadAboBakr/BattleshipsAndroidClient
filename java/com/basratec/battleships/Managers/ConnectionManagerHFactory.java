@@ -16,7 +16,7 @@ public class ConnectionManagerHFactory {
             System.out.println("Started the connection");
         }
         else if(gameType == LOCAL){
-            //connectionManager = new LocalConnectionManager();
+            connectionManager = new LocalConnectionManager();
         }
         connectionManager.startListning(activity); //ToDO Enhance
 

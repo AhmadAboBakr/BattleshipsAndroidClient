@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme" >
         
         <activity
-            android:name=".MainGame"
+            android:name=".Activities.MainGame"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             >
@@ -45,7 +45,7 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name=".PreGame"
+            android:name=".Activities.PreGame"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme"
             >

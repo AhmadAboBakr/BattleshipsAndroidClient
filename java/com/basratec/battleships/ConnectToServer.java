@@ -2,7 +2,7 @@ package com.basratec.battleships;
 
 import com.basratec.battleships.Managers.ConnectionManager;
 import com.basratec.battleships.Managers.ConnectionManagerHFactory;
-import com.basratec.battleships.Managers.ServerConnectionManager;
+import com.basratec.battleships.Activities.PreGame;
 import com.basratec.battleships.util.SystemUiHider;
 
 import android.content.Intent;

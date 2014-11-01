@@ -1,4 +1,4 @@
-package com.basratec.battleships;
+package com.basratec.battleships.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,9 +8,13 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.basratec.battleships.AAPIableActivity;
+import com.basratec.battleships.EndGame;
+import com.basratec.battleships.GridMap;
 import com.basratec.battleships.Helpers.Generators;
 import com.basratec.battleships.Managers.ConnectionManager;
 import com.basratec.battleships.Managers.ConnectionManagerHFactory;
+import com.basratec.battleships.R;
 
 /**
  * Created by nookz on 9/27/2014.

@@ -1,13 +1,10 @@
-package com.basratec.battleships;
+package com.basratec.battleships.Activities;
 
 import java.net.Socket;
-import java.util.List;
 import java.util.Stack;
-import java.util.Vector;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,10 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.basratec.battleships.AAPIableActivity;
+import com.basratec.battleships.GridMap;
 import com.basratec.battleships.Helpers.Generators;
 import com.basratec.battleships.Helpers.TimeHelper;
 import com.basratec.battleships.Managers.ConnectionManager;
 import com.basratec.battleships.Managers.ConnectionManagerHFactory;
+import com.basratec.battleships.R;
 import com.basratec.battleships.Ships.BaseShip;
 import com.basratec.battleships.Ships.TinyShip;
 

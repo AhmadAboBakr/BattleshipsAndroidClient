@@ -1,6 +1,8 @@
 package com.basratec.battleships.Managers;
 
 import com.basratec.battleships.AAPIableActivity;
+import com.basratec.battleships.singlePlayer.AIPlayer;
+import com.basratec.battleships.singlePlayer.SuperEasyAIPlayer;
 
 import java.util.concurrent.Callable;
 
@@ -10,7 +12,7 @@ import java.util.concurrent.Callable;
 
 
 public class LocalConnectionManager extends ConnectionManager{
-
+    private AIPlayer player;
     @Override
     protected void listen() {
 
@@ -28,7 +30,7 @@ public class LocalConnectionManager extends ConnectionManager{
 
     @Override
     public void startListning(AAPIableActivity activity) {
-
+        player= new SuperEasyAIPlayer();
     }
 }
 

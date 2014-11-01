@@ -3,6 +3,10 @@ package com.basratec.battleships.Ships;
 
 public class TinyShip extends BaseShip
 {
-    public int size = 1;
+    //TODO
+    public TinyShip(){
+        this.width=this.height=1;
+    }
+
 
 }
