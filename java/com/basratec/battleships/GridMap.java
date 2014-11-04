@@ -63,24 +63,32 @@ public class GridMap implements Serializable
         }
     }
 
-    public boolean placeShip(BaseShip ship,int startingPosition)
+    /**
+     *
+     * @param ship the ship to place
+     * @param startingPosition the starting position on the grid
+     * @return true for success, false for failure
+     */
+    public boolean placeShip(BaseShip ship, int startingPosition)
     {
-        //todo FixLater
-        //todo question the logic!
         int y = startingPosition/NUMBER_OF_HORIZONTAL_CELLS;
         int x = startingPosition%NUMBER_OF_VERTICAL_CELLS;
 
         this.ships.add(ship);
+
+        //Check if any of the positions to occupy is already taken
         for(int i = 0;i<ship.width;++i){
             for(int j = 0;j<ship.height;++j){
-                if(gridMap[i][j]==STATUS_OCCUPIED)return false;
+                if(gridMap[x + i][y + j]==STATUS_OCCUPIED)return false;
             }
         }
+
+        //Occupy the positions
         for(int i = 0;i<ship.width;++i){
             for(int j = 0;j<ship.height;++j){
-                gridMap[x][y] = GridMap.STATUS_OCCUPIED;
+                gridMap[x + i][y + j] = GridMap.STATUS_OCCUPIED;
+                //todo don't we need all the positions? not just the starting position
                 shipPositions.put(startingPosition, ship);
-
             }
         }
         return true;
@@ -94,8 +102,11 @@ public class GridMap implements Serializable
     //TODO Fix this shit
     public BaseShip shoot(int position)
     {
-        if(GridMap.STATUS_OCCUPIED == gridMap[position]){
-            gridMap[position] = GridMap.STATUS_HIT;
+        int y = position/NUMBER_OF_HORIZONTAL_CELLS;
+        int x = position%NUMBER_OF_VERTICAL_CELLS;
+
+        if(GridMap.STATUS_OCCUPIED == gridMap[x][y]){
+            gridMap[x][y] = GridMap.STATUS_HIT;
             //find the hit ship
             BaseShip hitShip = shipPositions.get(position);
             //update its health = its health - 100 / its size
@@ -103,8 +114,8 @@ public class GridMap implements Serializable
             //return the ship
             return hitShip;
         }
-        else if(GridMap.STATUS_NOT_OCCUPIED == gridMap[position]){
-            gridMap[position] = GridMap.STATUS_MISS;
+        else if(GridMap.STATUS_NOT_OCCUPIED == gridMap[x][y]){
+            gridMap[x][y] = GridMap.STATUS_MISS;
         }
         return null;
     }
@@ -120,8 +131,11 @@ public class GridMap implements Serializable
     //TODO Fix this shit
     public BaseShip shoot(int position, boolean result)
     {
+        int y = position/NUMBER_OF_HORIZONTAL_CELLS;
+        int x = position%NUMBER_OF_VERTICAL_CELLS;
+
         if(result){
-            gridMap[position] = GridMap.STATUS_HIT;
+            gridMap[x][y] = GridMap.STATUS_HIT;
             //find the hit ship
             BaseShip hitShip = shipPositions.get(position);
             //update its health = its health - 100 / its size
@@ -130,7 +144,7 @@ public class GridMap implements Serializable
             return hitShip;
         }
         else{
-            gridMap[position] = GridMap.STATUS_MISS;
+            gridMap[x][y] = GridMap.STATUS_MISS;
             return null;
         }
     }
@@ -143,7 +157,10 @@ public class GridMap implements Serializable
      */
     public int getCellStatus(int position)
     {
-        return gridMap[position];
+        int y = position/NUMBER_OF_HORIZONTAL_CELLS;
+        int x = position%NUMBER_OF_VERTICAL_CELLS;
+
+        return gridMap[x][y];
     }
 
     /**
@@ -154,7 +171,10 @@ public class GridMap implements Serializable
      */
     public void setCellStatus(int position, int status)
     {
-        gridMap[position] = status;
+        int y = position/NUMBER_OF_HORIZONTAL_CELLS;
+        int x = position%NUMBER_OF_VERTICAL_CELLS;
+
+        gridMap[x][y] = status;
     }
 
     /**
@@ -165,7 +185,10 @@ public class GridMap implements Serializable
      */
     public boolean isOccupied(int position)
     {
-        return (GridMap.STATUS_OCCUPIED == gridMap[position]) || (GridMap.STATUS_HIT == gridMap[position]);
+        int y = position/NUMBER_OF_HORIZONTAL_CELLS;
+        int x = position%NUMBER_OF_VERTICAL_CELLS;
+
+        return (GridMap.STATUS_OCCUPIED == gridMap[x][y]) || (GridMap.STATUS_HIT == gridMap[x][y]);
     }
 
 }
