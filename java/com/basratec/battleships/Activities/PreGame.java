@@ -95,8 +95,7 @@ public class PreGame extends AAPIableActivity {
                 return;
             }
             BaseShip ship = startingShips.pop();
-            ship.occupiedTiles.push(position);
-            gridMap.placeShip(ship);
+            gridMap.placeShip(ship, position);
             imgView.setAlpha(.5f);
 //            imgView.setBackgroundColor(Color.parseColor("#FF5500"));
             imgView.setBackgroundResource(R.drawable.intact);

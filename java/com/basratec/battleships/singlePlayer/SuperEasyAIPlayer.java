@@ -14,8 +14,8 @@ public class SuperEasyAIPlayer extends AIPlayer{
         currentTile=0;
         for(int i=0;i<NUMPER_OF_SHIPS;++i) {
             BaseShip ship = new TinyShip();
-            ship.occupiedTiles.push(new Integer(i));
-            myGrid.placeShip(ship);
+//            ship.occupiedTiles.push(new Integer(i));
+//            myGrid.placeShip(ship);
         }
     }
     public void play(GridMap oponentMap){

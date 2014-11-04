@@ -87,8 +87,8 @@ public class GridMap implements Serializable
         for(int i = 0;i<ship.width;++i){
             for(int j = 0;j<ship.height;++j){
                 gridMap[x + i][y + j] = GridMap.STATUS_OCCUPIED;
-                //todo don't we need all the positions? not just the starting position
-                shipPositions.put(startingPosition, ship);
+                //store ship in: y position * no. of vertical cells + x position
+                shipPositions.put((((y+j)*NUMBER_OF_VERTICAL_CELLS)+(x+i)), ship);
             }
         }
         return true;
@@ -99,7 +99,6 @@ public class GridMap implements Serializable
      *
      * @param position int
      */
-    //TODO Fix this shit
     public BaseShip shoot(int position)
     {
         int y = position/NUMBER_OF_HORIZONTAL_CELLS;
