@@ -63,6 +63,17 @@ public class GridMap implements Serializable
         }
     }
 
+    public int[] getOneDimensionalGridMap()
+    {
+        int[] oneDGM = new int[NUMBER_OF_VERTICAL_CELLS*NUMBER_OF_HORIZONTAL_CELLS];
+        for(int i=0;i<NUMBER_OF_VERTICAL_CELLS;i++){
+            for(int j=0;j< NUMBER_OF_HORIZONTAL_CELLS;j++){
+                oneDGM[i*NUMBER_OF_HORIZONTAL_CELLS + j] = gridMap[j][i];
+            }
+        }
+        return oneDGM;
+    }
+
     /**
      *
      * @param ship the ship to place

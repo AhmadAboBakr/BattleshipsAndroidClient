@@ -122,11 +122,10 @@ public class PreGame extends AAPIableActivity {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void eshtaHandler(View view){
-        System.out.println("Handling eshta!");
         if(startingShips.isEmpty()){
             //send grid to server  (JSONArray) is promising but require Android API 19 or more we need a decision
             try {
-                final String grid = new JSONArray(gridMap.gridMap).toString();
+                final String grid = new JSONArray(gridMap.getOneDimensionalGridMap()).toString();
                 new Thread(new Runnable(){
                     @Override
                     public void run() {
